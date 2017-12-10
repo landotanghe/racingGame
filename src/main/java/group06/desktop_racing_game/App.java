@@ -39,7 +39,7 @@ public class App extends JFrame {
         setExtendedState(Frame.MAXIMIZED_BOTH);
     }
     
-    App() {
+    App() throws Exception {
         super("Racing 2D");
 
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -72,7 +72,7 @@ public class App extends JFrame {
         setVisible(true);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         App app = new App();
     }
 

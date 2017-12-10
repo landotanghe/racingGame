@@ -6,11 +6,7 @@
 
 package goup06.desktop_racing_game;
 
-import exceptions.LoginException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import junit.framework.TestCase;
-import model.Model;
 
 /**
  *
@@ -30,34 +26,5 @@ public class ModelTest extends TestCase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-    }
-
-    // TODO add test methods here. The name must begin with 'test'. For example:
-    // public void testHello() {}
-
-    public void testLoginFail(){
-        String login = "!shouldfail";
-        String password = "!shouldfail";
-        Model model = new Model();
-        try {
-            model.login( login,  password);
-            fail("should throw loginException");
-        } catch (LoginException ex) {
-        } catch (Exception ex){
-            fail("should throw loginException");
-        }
-        
-        
-    }
-    public void testLoginSucces(){
-        
-        String login = "Shirley";
-        String password = "Temple";
-        Model model = new Model();
-        try {
-            model.login( login,  password);
-        } catch (LoginException ex) {
-            fail("should work: can be temporary because of network problems");
-        }
     }
 }

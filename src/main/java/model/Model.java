@@ -5,6 +5,7 @@
  */
 package model;
 
+import data.ConnectionFactory;
 import exceptions.LoginException;
 import java.awt.Point;
 import java.io.FileNotFoundException;
@@ -34,6 +35,7 @@ public class Model implements IModel {
     private User user;
     private String password;
     private ArrayList<Integer> gids;
+    private ConnectionFactory _connectionFactory;
 
     private Point startLocation;
 
@@ -41,34 +43,19 @@ public class Model implements IModel {
     private StandardUnderground standardUnderground;
     private RaceInfo raceInfo;
 
-    public Model() {
+    public Model() throws Exception {
         //user = new User(852, "team06", "team06");
         gids = new ArrayList<Integer>();
-        try {
-            resources = ResourceBundle.getBundle("databankconstanten");
-        } catch (Exception e) {
-            Logger.getLogger(Model.class.getName()).severe("construct model partially failed: propertiesfile could not be read");
-        }
-        try {
-            Class.forName(resources.getString("driver"));
-        } catch (ClassNotFoundException e) {
-            Logger.getLogger(Model.class.getName()).severe("construct model partially failed: driverproblems");
-        }
-        //try {
-        //constructTiles();
+        _connectionFactory = new ConnectionFactory();
+        
         constructUndergrounds();
-        /*} catch (SQLException ex) {
-         Logger.getLogger(Model.class.getName()).severe("construct model partially failed: tiles not available");
-         } catch (FileNotFoundException ex) {
-         Logger.getLogger(Model.class.getName()).log(Level.SEVERE, "construct model partially failed: '{'0'}'{0}", ex.getMessage());
-         }*/
     }
 
     @Override
     public ArrayList<RaceInfo> getRaceList(int aantal) {
         ArrayList<RaceInfo> races = new ArrayList<RaceInfo>();
         try {
-            Connection con = getConnection();
+            Connection con = _connectionFactory.getConnection();
             try {
                 fill(races, con, aantal);
             } finally {
@@ -86,7 +73,7 @@ public class Model implements IModel {
     public ArrayList<Time> getTimes(int topN) {
         ArrayList<Time> times = new ArrayList<Time>();
         try {
-            Connection con = getConnection();
+            Connection con = _connectionFactory.getConnection();
             try {
                 PreparedStatement stmt = con.prepareStatement(resources.getString("select_times"));
                 PreparedStatement stmt2 = con.prepareStatement(resources.getString("select_user_by_id"));
@@ -119,7 +106,7 @@ public class Model implements IModel {
     public Time getPersonelBestTime() {
         Time time;
         try {
-            Connection con = getConnection();
+            Connection con = _connectionFactory.getConnection();
             try {
                 PreparedStatement stmt = con.prepareStatement(resources.getString("select_personel_best_time"));
                 stmt.setInt(1, raceInfo.getId());
@@ -138,14 +125,6 @@ public class Model implements IModel {
         }
 
         return time;
-    }
-
-    private Connection getConnection() throws SQLException {
-        String PAR_JDBC_URL = resources.getString("connectiestring"),
-                PAR_LOGIN = resources.getString("username"),
-                PAR_PASSWORD = resources.getString("password");
-        Connection con = DriverManager.getConnection(PAR_JDBC_URL, PAR_LOGIN, PAR_PASSWORD);
-        return con;
     }
 
     private void makeDummyTimes(Time[] times) {
@@ -189,32 +168,7 @@ public class Model implements IModel {
         }
     }
 
-    @Override
-    public void login(String login, String password) throws LoginException {
-        try {
-            Connection con = getConnection();
-            try {
-                PreparedStatement stmt = con.prepareStatement(resources.getString("select_user"));
-                stmt.setString(1, login);
-                stmt.setString(2, password);
-                ResultSet rs = stmt.executeQuery();
-                if (rs.next()) {
-                    String email = rs.getString(4);
-                    int uid = rs.getInt(1);
-                    user = new User(uid, login, email);
-                } else {
-                    throw new LoginException("wrong username or password");
-                }
-
-            } catch (SQLException e) {
-                throw new LoginException("Could not connect to server");
-            } finally {
-                con.close();
-            }
-        } catch (SQLException e) {
-            throw new LoginException("Could not connect to server");
-        }
-    }
+    
 
     private void constructUndergrounds() {
         standardUnderground = new StandardUnderground();
@@ -261,7 +215,7 @@ public class Model implements IModel {
         FormattedTile[][] raceTrack = new FormattedTile[rows][columns];
 
         try {
-            Connection con = getConnection();
+            Connection con = _connectionFactory.getConnection();
             try {
 
                 Logger.getLogger(Model.class.getName()).info("request tilenames");
@@ -321,7 +275,7 @@ public class Model implements IModel {
     public void saveGhost(GhostTraject ghost) {
         Logger.getLogger(Model.class.getName()).info("saving ghostdata...");
         try {
-            Connection con = getConnection();
+            Connection con = _connectionFactory.getConnection();
             try {
                 con.setAutoCommit(false);
                 //rij in tbl_ghosts
@@ -366,7 +320,7 @@ public class Model implements IModel {
     @Override
     public void deleteGhost(int gid) {
         try {
-            Connection con = getConnection();
+            Connection con = _connectionFactory.getConnection();
             try {
                 con.setAutoCommit(false);
                 //tbl_ghosts
@@ -405,7 +359,7 @@ public class Model implements IModel {
     private GhostTraject getGhostTraject(int gid) {
         GhostTraject ghost = null;
         try {
-            Connection con = getConnection();
+            Connection con = _connectionFactory.getConnection();
             try {
                 //aantal ticks opvragen
                 PreparedStatement aantalStmt = con.prepareStatement(resources.getString("select_ghost_tick_size"));
@@ -445,7 +399,7 @@ public class Model implements IModel {
     public ArrayList<GhostInfo> getGhostInfos() {
         ArrayList<GhostInfo> ghosts = new ArrayList<GhostInfo>();
         try {
-            Connection con = getConnection();
+            Connection con = _connectionFactory.getConnection();
             try {
                 PreparedStatement stmt = con.prepareStatement(resources.getString("select_ghosts"));
                 stmt.setInt(1, raceInfo.getId());
@@ -490,7 +444,7 @@ public class Model implements IModel {
     public void saveTime(int ms) {
         Logger.getLogger(Model.class.getName()).info("saving time...");
         try {
-            Connection con = getConnection();
+            Connection con = _connectionFactory.getConnection();
             try {
                 con.setAutoCommit(false);
                 PreparedStatement deleteOld = con.prepareStatement(resources.getString("delete_time"));

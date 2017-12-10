@@ -34,8 +34,6 @@ public interface IModel {
 
     ArrayList<Time> getTimes(int topN);
 
-    void login(String login, String password) throws LoginException;
-
     void saveGhost(GhostTraject ghost);
 
     void saveTime(int ms);
