@@ -21,6 +21,9 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.undergrounds.*;
+import racetrack.FakeRaceTrackRepository;
+import racetrack.IRaceTrackRepository;
+import racetrack.RaceTrackRepository;
 
 /**
  *
@@ -35,20 +38,18 @@ public class Model implements IModel {
     private User user;
     private String password;
     private ArrayList<Integer> gids;
-    private ConnectionFactory _connectionFactory;
+    private final ConnectionFactory _connectionFactory;
+    private final IRaceTrackRepository _raceTrackRepository;
 
     private Point startLocation;
 
-    //UNDERGROUNDS
-    private StandardUnderground standardUnderground;
     private RaceInfo raceInfo;
 
     public Model() throws Exception {
-        //user = new User(852, "team06", "team06");
         gids = new ArrayList<Integer>();
         _connectionFactory = new ConnectionFactory();
-        
-        constructUndergrounds();
+        //_raceTrackRepository = new RaceTrackRepository(_connectionFactory);
+        _raceTrackRepository = new FakeRaceTrackRepository();
     }
 
     @Override
@@ -61,7 +62,7 @@ public class Model implements IModel {
             } finally {
                 con.close();
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             makeDummyRaces(races);
             Logger.getLogger(Model.class.getName()).warning("Connection fails: using dummy for races table");
         }
@@ -96,7 +97,6 @@ public class Model implements IModel {
             }
         } catch (Exception e) {
             Logger.getLogger(Model.class.getName()).warning("Connection fails: using dummy for time table");
-            // makeDummyTimes(times);
         }
 
         return times;
@@ -121,7 +121,6 @@ public class Model implements IModel {
             }
         } catch (Exception e) {
             time = new Time(user.getUsername(), user.getId(), -1);
-            // makeDummyTimes(times);
         }
 
         return time;
@@ -166,99 +165,12 @@ public class Model implements IModel {
         } catch (SQLException ex) {
             Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }  
 
-    
-
-    private void constructUndergrounds() {
-        standardUnderground = new StandardUnderground();
-    }
-
-    private void fillTrack(Connection con, FormattedTile[][] raceTrack, int rid, Map<Integer, String> tilenames, Map<Integer, String> tilecodes) {
-        try {
-            PreparedStatement stmt = con.prepareStatement(resources.getString("select_race_tiles")); //rid,tid,x,y
-            stmt.setInt(1, rid);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                //int tid;
-                int tid = rs.getInt(2);
-                int x = rs.getInt(3);
-                int y = rs.getInt(4);
-                String tilename = tilenames.get(tid);
-                String tilecode = tilecodes.get(tid);
-                raceTrack[y][x] = new FormattedTile(tilename, tilecode, standardUnderground);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Model.class.getName()).warning("could not fill track from DB");
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void fillTileMap(Map<Integer, String> filemap, Map<Integer, String> codemap, Connection con) throws SQLException {
-        PreparedStatement stmt = con.prepareStatement(resources.getString("select_tile_names"));
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next()) {
-            int tid = rs.getInt(1);
-            String filename = rs.getString(2);
-            String code = rs.getString(3);
-            filemap.put(tid, filename);
-            codemap.put(tid, code);
-        }
-    }
 
     @Override
     public FormattedTile[][] getRaceTrack() {
-        //Connection con = getConnection();
-        int rows = 10; //max van y
-        int columns = 10; //max van x
-        FormattedTile[][] raceTrack = new FormattedTile[rows][columns];
-
-        try {
-            Connection con = _connectionFactory.getConnection();
-            try {
-
-                Logger.getLogger(Model.class.getName()).info("request tilenames");
-                Map<Integer, String> tilenames = new HashMap<Integer, String>();
-                Map<Integer, String> tilecodes = new HashMap<Integer, String>();
-                fillTileMap(tilenames, tilecodes, con);
-
-                //ondergrond ophalen: hier of binnen lus afh of alle tegels zelfde ondergrond of niet...
-                Logger.getLogger(Model.class.getName()).info("filling grid with empty tiles");
-                makeEmptyGrid(raceTrack, rows, columns, tilenames, tilecodes);
-                Logger.getLogger(Model.class.getName()).info("filling grid with real tiles");
-                fillTrack(con, raceTrack, raceInfo.getId(), tilenames, tilecodes);
-
-            } catch (FileNotFoundException ex) {
-                //tijdelijk als con plat
-                Logger.getLogger(Model.class.getName()).warning("making empty grid");
-                Map<Integer, String> tilenames = new HashMap<Integer, String>();
-                tilenames.put(11, "empty.png");
-                try {
-                    Map<Integer, String> tilecodes = new HashMap<Integer, String>();
-                    makeEmptyGrid(raceTrack, rows, columns, tilenames, tilecodes);
-                } catch (FileNotFoundException ex1) {
-                    Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex1);
-                }//eind tijdelijk als con plat
-                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                con.close();
-            };
-        } catch (SQLException ex) {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return raceTrack;
-    }
-
-    private IUnderground chooseUnderground(String code) {
-        IUnderground underground = standardUnderground;
-        if (code == "") {
-
-        } else if (code == "") {
-
-        }
-        return underground;
+        return _raceTrackRepository.getRaceTrack(raceInfo.getId());
     }
 
     @Override
@@ -428,16 +340,6 @@ public class Model implements IModel {
             Logger.getLogger(Model.class.getName()).warning("could not get ghostInfo");
         }
         return ghosts;
-    }
-
-    private void makeEmptyGrid(FormattedTile[][] raceTrack, int rows, int columns, Map<Integer, String> tilenames, Map<Integer, String> codenames) throws FileNotFoundException {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                Object fileName = tilenames.get(11);
-                raceTrack[i][j] = new FormattedTile((String) fileName, "EM", standardUnderground);
-                //Logger.getLogger(Model.class.getName()).info("loaded file " + fileName);
-            }
-        }
     }
 
     @Override

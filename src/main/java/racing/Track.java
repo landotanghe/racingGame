@@ -44,8 +44,8 @@ public class Track implements IResizeOberver {
     }
 
     private void createTrackImage(FormattedTile[][] tiles) {
-        int tileWidth = tiles[1][1].getWidth();
-        int tileHeight = tiles[1][1].getHeight();
+        int tileWidth = tiles[0][0].getWidth();
+        int tileHeight = tiles[0][0].getHeight();
         graphicsImage = new BufferedImage(tiles.length * tileWidth, tiles.length * tileHeight, BufferedImage.TYPE_3BYTE_BGR); //TYPE????, HARDGECODEERD
         logicImage = new BufferedImage(tiles.length * tileWidth, tiles.length * tileHeight, BufferedImage.TYPE_3BYTE_BGR);
         Graphics g = graphicsImage.createGraphics();
@@ -59,8 +59,8 @@ public class Track implements IResizeOberver {
     }
 
     public Point getAdjustedStartLocation() {
-        int tileWidth = tiles[1][1].getWidth();
-        int tileHeight = tiles[1][1].getHeight();
+        int tileWidth = tiles[0][0].getWidth();
+        int tileHeight = tiles[0][0].getHeight();
         int startX = 0;
         int startY = 0;
         for (int i = 0; i < tiles.length; i++) {
@@ -86,8 +86,8 @@ public class Track implements IResizeOberver {
     }
 
     public Point getStartLocation() {
-        int tileWidth = tiles[1][1].getWidth();
-        int tileHeight = tiles[1][1].getHeight();
+        int tileWidth = tiles[0][0].getWidth();
+        int tileHeight = tiles[0][0].getHeight();
         int startX = 0;
         int startY = 0;
         for (int i = 0; i < tiles.length; i++) {
