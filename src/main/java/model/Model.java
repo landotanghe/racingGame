@@ -6,24 +6,19 @@
 package model;
 
 import data.ConnectionFactory;
-import exceptions.LoginException;
 import java.awt.Point;
-import java.io.FileNotFoundException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.undergrounds.*;
+import races.FakeRaceRepository;
+import races.IRaceRepository;
 import racetrack.FakeRaceTrackRepository;
 import racetrack.IRaceTrackRepository;
-import racetrack.RaceTrackRepository;
 
 /**
  *
@@ -40,6 +35,7 @@ public class Model implements IModel {
     private ArrayList<Integer> gids;
     private final ConnectionFactory _connectionFactory;
     private final IRaceTrackRepository _raceTrackRepository;
+    private final IRaceRepository _raceRepository;
 
     private Point startLocation;
 
@@ -50,24 +46,12 @@ public class Model implements IModel {
         _connectionFactory = new ConnectionFactory();
         //_raceTrackRepository = new RaceTrackRepository(_connectionFactory);
         _raceTrackRepository = new FakeRaceTrackRepository();
+        _raceRepository = new FakeRaceRepository();
     }
 
     @Override
-    public ArrayList<RaceInfo> getRaceList(int aantal) {
-        ArrayList<RaceInfo> races = new ArrayList<RaceInfo>();
-        try {
-            Connection con = _connectionFactory.getConnection();
-            try {
-                fill(races, con, aantal);
-            } finally {
-                con.close();
-            }
-        } catch (SQLException e) {
-            makeDummyRaces(races);
-            Logger.getLogger(Model.class.getName()).warning("Connection fails: using dummy for races table");
-        }
-
-        return races;
+    public ArrayList<RaceInfo> getRaceList(int count) {
+        return _raceRepository.getRaces(count);
     }
 
     @Override
@@ -125,48 +109,6 @@ public class Model implements IModel {
 
         return time;
     }
-
-    private void makeDummyTimes(Time[] times) {
-        for (int i = 0; i < times.length; i++) {
-            Time time = new Time(password, 0, 100);
-            times[i] = time;
-        }
-    }
-
-    private void makeDummyRaces(ArrayList<RaceInfo> races) {
-        for (int i = 0; i < 10; i++) {
-            RaceInfo race = new RaceInfo(i, "automated" + i, "Lando");
-            races.add(race);
-        }
-    }
-
-    private void fill(ArrayList<RaceInfo> races, Connection con, int aantal) {
-        try {
-            PreparedStatement stmt = con.prepareStatement(resources.getString("select_races")); //id, name, creator
-            //stmt.setInt(1, 50);
-            ResultSet rs = stmt.executeQuery();
-
-            int i = 0;
-            while (rs.next() && i < aantal) {
-                PreparedStatement stmt2 = con.prepareStatement(resources.getString("get_name"));
-                int id = rs.getInt(1);
-                String name = rs.getString(2);
-                int creator = rs.getInt(3);
-                stmt2.setInt(1, creator);
-                ResultSet rs2 = stmt2.executeQuery();
-                rs2.next();
-                String creatorname = rs2.getString(1);
-
-                RaceInfo race = new RaceInfo(id, name, creatorname);
-                races.add(race);
-                i++;
-                // stmt2.close();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }  
-
 
     @Override
     public FormattedTile[][] getRaceTrack() {
