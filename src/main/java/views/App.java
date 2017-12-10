@@ -1,4 +1,4 @@
-package group06.desktop_racing_game;
+package views;
 
 import controller.Controller;
 import java.awt.Frame;

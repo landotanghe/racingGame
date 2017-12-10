@@ -7,7 +7,7 @@ package racing;
 
 import exceptions.DrivingException;
 import controller.Controller;
-import group06.desktop_racing_game.IResizeOberver;
+import views.IResizeOberver;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;

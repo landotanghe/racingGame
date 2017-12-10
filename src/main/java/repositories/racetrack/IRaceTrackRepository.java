@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package repositories.racetrack;
 
-package group06.desktop_racing_game;
+import model.FormattedTile;
 
 /**
  *
- * @author admin
+ * @author lando
  */
-public interface IResizeOberver {
+public interface IRaceTrackRepository {
 
-    public void update(int width, int height);
+    FormattedTile[][] getRaceTrack(int raceId);
     
 }

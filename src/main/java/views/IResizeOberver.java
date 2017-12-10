@@ -3,17 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package races;
 
-import java.util.ArrayList;
-import model.RaceInfo;
+package views;
 
 /**
  *
- * @author lando
+ * @author admin
  */
-public interface IRaceRepository {
+public interface IResizeOberver {
 
-    ArrayList<RaceInfo> getRaces(int aantal);
+    public void update(int width, int height);
     
 }

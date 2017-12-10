@@ -3,16 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package racetrack;
+package repositories.races;
 
-import model.FormattedTile;
+import java.util.ArrayList;
+import model.RaceInfo;
 
 /**
  *
  * @author lando
  */
-public interface IRaceTrackRepository {
+public interface IRaceRepository {
 
-    FormattedTile[][] getRaceTrack(int raceId);
+    ArrayList<RaceInfo> getRaces(int aantal);
     
 }

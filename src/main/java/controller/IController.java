@@ -7,7 +7,7 @@
 package controller;
 
 import exceptions.LoginException;
-import group06.desktop_racing_game.IResizeOberver;
+import views.IResizeOberver;
 import java.util.ArrayList;
 import model.GhostTraject;
 import model.RaceInfo;

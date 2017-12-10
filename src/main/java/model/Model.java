@@ -6,8 +6,8 @@
 package model;
 
 import data.ConnectionFactory;
-import ghosts.GhostRepository;
-import ghosts.IGhostRepository;
+import repositories.ghosts.GhostRepository;
+import repositories.ghosts.IGhostRepository;
 import java.awt.Point;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,12 +17,12 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import races.FakeRaceRepository;
-import races.IRaceRepository;
-import racetrack.FakeRaceTrackRepository;
-import racetrack.IRaceTrackRepository;
-import rankings.IRankingsRepository;
-import rankings.RankingsRepository;
+import repositories.races.FakeRaceRepository;
+import repositories.races.IRaceRepository;
+import repositories.racetrack.FakeRaceTrackRepository;
+import repositories.racetrack.IRaceTrackRepository;
+import repositories.rankings.IRankingsRepository;
+import repositories.rankings.RankingsRepository;
 
 /**
  *

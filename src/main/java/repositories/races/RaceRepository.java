@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package races;
+package repositories.races;
 
 import data.ConnectionFactory;
 import java.sql.Connection;

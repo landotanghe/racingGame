@@ -5,7 +5,7 @@
 package racing;
 
 import controller.Controller;
-import group06.desktop_racing_game.IResizeOberver;
+import views.IResizeOberver;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
