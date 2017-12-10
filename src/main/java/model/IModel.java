@@ -32,7 +32,7 @@ public interface IModel {
 
     Point getStartLocation();
 
-    ArrayList<Time> getTimes(int topN);
+    ArrayList<Time> getRankings(int topN);
 
     void saveGhost(GhostTraject ghost);
 

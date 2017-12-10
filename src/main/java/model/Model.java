@@ -19,6 +19,8 @@ import races.FakeRaceRepository;
 import races.IRaceRepository;
 import racetrack.FakeRaceTrackRepository;
 import racetrack.IRaceTrackRepository;
+import rankings.IRankingsRepository;
+import rankings.RankingsRepository;
 
 /**
  *
@@ -36,6 +38,7 @@ public class Model implements IModel {
     private final ConnectionFactory _connectionFactory;
     private final IRaceTrackRepository _raceTrackRepository;
     private final IRaceRepository _raceRepository;
+    private final IRankingsRepository _rankingsRepository;
 
     private Point startLocation;
 
@@ -47,6 +50,7 @@ public class Model implements IModel {
         //_raceTrackRepository = new RaceTrackRepository(_connectionFactory);
         _raceTrackRepository = new FakeRaceTrackRepository();
         _raceRepository = new FakeRaceRepository();
+        _rankingsRepository = new RankingsRepository(_connectionFactory);
     }
 
     @Override
@@ -55,59 +59,13 @@ public class Model implements IModel {
     }
 
     @Override
-    public ArrayList<Time> getTimes(int topN) {
-        ArrayList<Time> times = new ArrayList<Time>();
-        try {
-            Connection con = _connectionFactory.getConnection();
-            try {
-                PreparedStatement stmt = con.prepareStatement(resources.getString("select_times"));
-                PreparedStatement stmt2 = con.prepareStatement(resources.getString("select_user_by_id"));
-                stmt.setInt(1, raceInfo.getId());
-                //stmt.setInt(topN, 2);
-                ResultSet rs = stmt.executeQuery();
-                while (rs.next() && times.size() < topN) {
-                    int uid = rs.getInt(1);
-                    int ms = rs.getInt(2);
-                    stmt2.setInt(1, uid);
-                    ResultSet rs2 = stmt2.executeQuery();
-                    rs2.next();
-                    String username = rs2.getString(1);
-                    Time time = new Time(username, uid, ms);
-                    times.add(time);
-                }
-
-            } finally {
-                con.close();
-            }
-        } catch (Exception e) {
-            Logger.getLogger(Model.class.getName()).warning("Connection fails: using dummy for time table");
-        }
-
-        return times;
+    public ArrayList<Time> getRankings(int topN) {
+        return _rankingsRepository.getRankings(raceInfo.getId(), topN);
     }
 
     @Override
     public Time getPersonelBestTime() {
-        Time time;
-        try {
-            Connection con = _connectionFactory.getConnection();
-            try {
-                PreparedStatement stmt = con.prepareStatement(resources.getString("select_personel_best_time"));
-                stmt.setInt(1, raceInfo.getId());
-                stmt.setInt(2, user.getId());
-                ResultSet rs = stmt.executeQuery();
-                rs.next();
-                int ms = rs.getInt(1);
-                time = new Time(user.getUsername(), user.getId(), ms);
-
-            } finally {
-                con.close();
-            }
-        } catch (Exception e) {
-            time = new Time(user.getUsername(), user.getId(), -1);
-        }
-
-        return time;
+        return _rankingsRepository.getPersonelBestTime(raceInfo.getId(), user);
     }
 
     @Override

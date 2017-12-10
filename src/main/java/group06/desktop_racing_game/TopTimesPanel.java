@@ -39,7 +39,7 @@ public class TopTimesPanel extends JPanel{
         this.race = race;
         
         //copy the values of times into a format LayoutTable can handle: Object[][]
-        ArrayList<Time> times = model.getTimes(TOP_N);
+        ArrayList<Time> times = model.getRankings(TOP_N);
         String[] table_columns = {"player","time"};
         String[][] table_rows = new String[times.size()][];
         for (int i = 0; i < table_rows.length; i++) {
