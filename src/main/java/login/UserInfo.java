@@ -10,10 +10,17 @@ package login;
  * @author lando
  */
 public class UserInfo {
-    private String _userName;
 
-    public UserInfo(String _userName) {
-        this._userName = _userName;
+    private final int _userId;
+    private final String _userName;
+
+    public UserInfo(int userId, String userName) {
+        _userId = userId;
+        _userName = userName;
+    }
+    
+    public int getId(){
+        return _userId;
     }
     
     public String getUserName(){

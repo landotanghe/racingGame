@@ -14,6 +14,6 @@ import exceptions.LoginException;
 public class FakeAuthenticator implements Authenticator{
 
     public LoginResult login(String login, String password) throws LoginException {
-        return LoginResult.LoggedInAs(new UserInfo(login));
+        return LoginResult.LoggedInAs(new UserInfo(1, login));
     }    
 }
