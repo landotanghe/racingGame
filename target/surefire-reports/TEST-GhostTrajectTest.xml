@@ -61,7 +61,7 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="GhostTrajectTest" name="testEmpty" time="0"/>
   <testcase classname="GhostTrajectTest" name="testFill" time="0"/>
+  <testcase classname="GhostTrajectTest" name="testEmpty" time="0"/>
   <testcase classname="GhostTrajectTest" name="testToFull" time="0"/>
 </testsuite>

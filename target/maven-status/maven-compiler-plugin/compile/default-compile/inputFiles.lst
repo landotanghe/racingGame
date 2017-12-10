@@ -1,4 +1,5 @@
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\model\FormattedTile.java
+F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\rankings\RankingsRepository.java
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\group06\desktop_racing_game\RaceOverviewPanel.java
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\login\Authenticator.java
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\model\Model.java
@@ -18,13 +19,19 @@ F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\controller\Controller.java
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\racing\Track.java
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\model\Time.java
+F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\racetrack\FakeRaceTrackRepository.java
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\model\User.java
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\group06\desktop_racing_game\LayoutTable.java
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\racetrack\RaceTrackRepository.java
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\group06\desktop_racing_game\App.java
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\racing\Speed.java
+F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\ghosts\IGhostRepository.java
+F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\ghosts\GhostRepository.java
+F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\races\RaceRepository.java
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\model\IModel.java
+F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\races\FakeRaceRepository.java
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\racing\Car.java
+F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\rankings\IRankingsRepository.java
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\racing\Stopwatch.java
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\racing\DrivingAlgorithm.java
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\group06\desktop_racing_game\IResizeOberver.java
@@ -34,3 +41,4 @@ F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\model\GhostInfo.java
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\racetrack\IRaceTrackRepository.java
 F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\data\ConnectionFactory.java
+F:\Dropbox\vakoverschrijdend_project\vop-2014-team06\desktop_racing_game\Racing2DDesktop\src\main\java\races\IRaceRepository.java

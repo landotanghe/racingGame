@@ -83,7 +83,7 @@ public class GhostTraject {
         return thetas.get(currentTick);
     }
 
-    double getMillis() {
+    public double getMillis() {
         return millis.get(currentTick);
     }
 
