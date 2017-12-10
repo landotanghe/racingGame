@@ -21,7 +21,7 @@ public class FakeRaceTrackRepository implements IRaceTrackRepository{
         try {
             FormattedTile[][] tiles = new FormattedTile[3][3];
             tiles[1][0] = new FormattedTile("verticaal_start.png", "VS", new StandardUnderground());
-            tiles[0][0] = new FormattedTile("L1.png", "VS", new StandardUnderground());
+            tiles[0][0] = new FormattedTile("L1.png", "SVB", new StandardUnderground());
             tiles[0][1] = new FormattedTile("horizontaal.png", "H", new StandardUnderground());
             tiles[0][2] = new FormattedTile("L2.png", "VS", new StandardUnderground());
             tiles[1][2] = new FormattedTile("verticaal.png", "VS", new StandardUnderground());
