@@ -69,7 +69,7 @@ public class Model implements IModel {
 
     @Override
     public Time getPersonelBestTime() {
-        return _rankingsRepository.getPersonelBestTime(raceInfo.getId(), user);
+        return _rankingsRepository.getPersonalBestTime(raceInfo.getId(), user);
     }
 
     @Override
@@ -110,31 +110,7 @@ public class Model implements IModel {
 
     @Override
     public void saveTime(int ms) {
-        Logger.getLogger(Model.class.getName()).info("saving time...");
-        try {
-            Connection con = _connectionFactory.getConnection();
-            try {
-                con.setAutoCommit(false);
-                PreparedStatement deleteOld = con.prepareStatement(resources.getString("delete_time"));
-                deleteOld.setInt(1, raceInfo.getId());
-                deleteOld.setInt(2, user.getId());
-                deleteOld.execute();
-
-                PreparedStatement insertNew = con.prepareStatement(resources.getString("insert_time"));
-                insertNew.setInt(1, user.getId());
-                insertNew.setInt(2, raceInfo.getId());
-                insertNew.setInt(3, ms);
-                insertNew.execute();
-                con.commit();
-                Logger.getLogger(Model.class.getName()).info("time succesfully saved");
-            } catch (SQLException e) {
-                con.rollback();
-            } finally {
-                con.close();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Model.class.getName()).warning("could not save time");
-        }
+        _rankingsRepository.savePersonalBestTime(raceInfo.getId(), user.getId(), ms);
     }
 
     @Override
