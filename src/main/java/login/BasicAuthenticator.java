@@ -28,7 +28,7 @@ public class BasicAuthenticator implements Authenticator {
     public LoginResult login(String login, String password) throws LoginException {
         final int MIN_LOGIN_LENGTH = 3,
                 MAX_LOGIN_LENGTH = 16,
-                MIN_PASS_LENGTH = 6,
+                MIN_PASS_LENGTH = 3,
                 MAX_PASS_LENGTH = 16;
         
         if (login == null || login.length() == 0) {
@@ -38,7 +38,7 @@ public class BasicAuthenticator implements Authenticator {
         } else if (password == null || password.length() == 0) {
             return LoginResult.Failed("password required");
         } else if (password.length() < MIN_PASS_LENGTH || password.length() > MAX_PASS_LENGTH) {
-            return LoginResult.Failed("password must be " + MIN_LOGIN_LENGTH + " - " + MAX_LOGIN_LENGTH + " chars");
+            return LoginResult.Failed("password must be " + MIN_PASS_LENGTH + " - " + MAX_LOGIN_LENGTH + " chars");
         }
         UserInfo user = authenticate(login, password);
         

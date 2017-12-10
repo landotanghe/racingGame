@@ -55,6 +55,13 @@ public class Model implements IModel {
         _raceRepository = new FakeRaceRepository();
         _rankingsRepository = new RankingsRepository(_connectionFactory);
         _ghostRepository = new GhostRepository(_connectionFactory);
+        
+        try{
+            Connection con = _connectionFactory.getConnection();
+        }
+        catch(SQLException ex){
+            ex.printStackTrace();
+        }
     }
 
     @Override

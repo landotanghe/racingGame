@@ -5,6 +5,7 @@
  */
 package controller;
 
+import data.ConnectionFactory;
 import exceptions.LoginException;
 import group06.desktop_racing_game.RaceDetailsPanel;
 import model.Model;
@@ -15,6 +16,8 @@ import group06.desktop_racing_game.IResizeOberver;
 import login.LoginPanel;
 import group06.desktop_racing_game.RaceOverviewPanel;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import login.Authenticator;
 import login.BasicAuthenticator;
 import login.FakeAuthenticator;
@@ -92,14 +95,20 @@ public class Controller implements IController {
 
     @Override
     public void login(String login, String password) throws LoginException {
-        Authenticator authenticator = new FakeAuthenticator();;
-        LoginResult result = authenticator.login(login, password);
-        if(result.isLoggedIn()){
-            showRaceOverview();
+        Authenticator authenticator;
+        try {
+            authenticator = new BasicAuthenticator(new ConnectionFactory());
+            LoginResult result = authenticator.login(login, password);
+            if(result.isLoggedIn()){
+                showRaceOverview();
+            }
+            else{
+                throw new LoginException(result.getErrorMessage());
+            }
+        } catch (Exception ex) {
+            throw new LoginException(ex.getMessage());
         }
-        else{
-            throw new LoginException(result.getErrorMessage());
-        }
+;
         
     }
 
