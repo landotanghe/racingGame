@@ -17,6 +17,9 @@ import javax.swing.SwingWorker;
 import javax.swing.Timer;
 import model.GhostTraject;
 import model.Model;
+import model.positioning.Location;
+import model.positioning.Orientation;
+import model.positioning.Positioning;
 
 /**
  *
@@ -86,7 +89,9 @@ public class DrivingAlgorithm implements ActionListener {
         } else {
             car.setSpeedSize(0);
         }
-        ghostSave.addTick((int)car.getX(), (int)car.getY(), car.getAngle(), stopWatch.getMillis());
+        //TODO separate ghostSaver from ghostReader
+        Positioning p = new Positioning(new Location((int) car.getX(),(int) car.getY()), new Orientation(car.getAngle()));
+        ghostSave.addTick(p, stopWatch.getMillis());
         if (track.checkAtFinish(cornerPixels)) {
             if (isFinishAvailable) {
                 handleLaps();

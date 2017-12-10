@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="3" failures="0" name="GhostTrajectTest" time="0" errors="0" skipped="0">
+<testsuite tests="3" failures="0" name="GhostTrajectTest" time="0.001" errors="3" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_151\jre\bin"/>
@@ -61,7 +61,19 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="GhostTrajectTest" name="testFill" time="0"/>
-  <testcase classname="GhostTrajectTest" name="testEmpty" time="0"/>
-  <testcase classname="GhostTrajectTest" name="testToFull" time="0"/>
+  <testcase classname="GhostTrajectTest" name="testFill" time="0.001">
+    <error message="Uncompilable source code - Erroneous sym type: model.GhostTraject.addTick" type="java.lang.RuntimeException">java.lang.RuntimeException: Uncompilable source code - Erroneous sym type: model.GhostTraject.addTick
+	at GhostTrajectTest.testFill(GhostTrajectTest.java:46)
+</error>
+  </testcase>
+  <testcase classname="GhostTrajectTest" name="testEmpty" time="0">
+    <error message="Uncompilable source code - Erroneous sym type: model.GhostTraject.addTick" type="java.lang.RuntimeException">java.lang.RuntimeException: Uncompilable source code - Erroneous sym type: model.GhostTraject.addTick
+	at GhostTrajectTest.testEmpty(GhostTrajectTest.java:34)
+</error>
+  </testcase>
+  <testcase classname="GhostTrajectTest" name="testToFull" time="0">
+    <error message="Uncompilable source code - Erroneous sym type: model.GhostTraject.addTick" type="java.lang.RuntimeException">java.lang.RuntimeException: Uncompilable source code - Erroneous sym type: model.GhostTraject.addTick
+	at GhostTrajectTest.testToFull(GhostTrajectTest.java:66)
+</error>
+  </testcase>
 </testsuite>

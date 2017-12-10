@@ -7,6 +7,9 @@ package model;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import model.positioning.Location;
+import model.positioning.Orientation;
+import model.positioning.Positioning;
 
 /**
  * used to temporary store the ticks to record the user's ghost or used as a
@@ -20,18 +23,15 @@ public class GhostTraject {
     //lees en schrijf ticks niet afwisselend, doe opeenvolgende leesoperaties na elkaar, net als schrijfoperaties
     //vergeet niet resetTick() op te roepen om ticks te herschrijven of te herlezen
     // private String username;
-    private ArrayList<Point> locations;
-    private ArrayList<Double> thetas;
     private ArrayList<Integer> millis;
+    private ArrayList<Positioning> positions;
     private int currentTick;
 
     public GhostTraject(int size) {
-        locations = new ArrayList<Point>();
-        thetas = new ArrayList<Double>();
+        positions = new ArrayList<Positioning>();
         millis = new ArrayList<Integer>();
         for (int i = 0; i < size; i++) {
-            locations.add(null);
-            thetas.add(null);
+            positions.add(null);
             millis.add(null);
         }
         resetTick();
@@ -41,20 +41,18 @@ public class GhostTraject {
         currentTick = -1;
     }
 
-    public void addTick(int x, int y, double theta, int ms) {
-        locations.add(new Point(x, y));
+    public void addTick(Positioning p, int ms) {
+        positions.add(p);
         millis.add(ms);
-        thetas.add(theta);
     }
 
-    public void addTick(int x, int y, double theta, int ms, int position) {
-        locations.set(position, new Point(x, y));
+    public void addTick(Positioning p, int ms, int position) {
+        positions.set(position, p);
         millis.set(position, ms);
-        thetas.set(position, theta);
     }
 
     public boolean nextTick() {
-        boolean hasNextTick = currentTick + 1 < locations.size();
+        boolean hasNextTick = currentTick + 1 < positions.size();
         if (hasNextTick) {//keep giving the last tick if no more ticks left in the recording
             currentTick++;
         }
@@ -68,59 +66,65 @@ public class GhostTraject {
 
 
     public Point getLocation() {
-        return locations.get(currentTick);
+        return positions.get(currentTick).getLocation().getPoint();
     }
 
     public int getX() {
-        return (int) locations.get(currentTick).getX();
+        return (int) getLocation().getX();
     }
 
     public int getY() {
-        return (int) locations.get(currentTick).getY();
+        return (int) getLocation().getY();
     }
 
     public double getTheta() {
-        return thetas.get(currentTick);
+        return positions.get(currentTick).getOrientation().getTheta();
     }
 
     public double getMillis() {
         return millis.get(currentTick);
     }
-
+    
     public Point getLocation(int ms) {
+       return getPositioning(ms).getLocation().getPoint();
+    }
+
+    public Positioning getPositioning(int ms) {
 
         int t1 = getTickBeforeMs(ms);
         int t2 = getTickAfter(t1);
-        Point p1 = locations.get(t1);
+        Positioning p1 = positions.get(t1);
         if (t1 != t2) {
-            Point p2 = locations.get(t1);
-            int ms1 = millis.get(t1);
-            int ms2 = millis.get(t2);
-            double coeffX = (p1.x - p2.x + 0.0) / (ms1 - ms2);
-            double coeffY = (p1.y - p2.y + 0.0) / (ms1 - ms2);
-            return new Point((int) (p1.x + (ms - ms1) * coeffX), (int) (p1.y + (ms - ms2) * coeffY));
+            return getAveragePosition(t1, t2, ms, p1);
         } else {
-            return new Point((int) p1.x, (int) p1.y);
+            return p1;
         }
         //return new Point(locations.get(getTickBefore(ms)).x, locations.get(getTickBefore(ms)).y);
     }
 
+    public Positioning getAveragePosition(int t1, int t2, int ms, Positioning p1) {
+        Positioning p2 = positions.get(t1);
+        int ms1 = millis.get(t1);
+        int ms2 = millis.get(t2);
+        
+        double coeff = (ms - ms1) / (ms1 - ms2);
+        
+        double deltaX = (p1.getX() - p2.getX() + 0.0);
+        double deltaY = (p1.getY() - p2.getY() + 0.0);
+        double deltaTheta = (p1.getOrientation().getTheta() - p2.getOrientation().getTheta());
+        
+        int x = (int) (p1.getLocation().getPoint().x + coeff * deltaX);
+        int y = (int) (p1.getLocation().getPoint().y + coeff * deltaY);
+        double theta = p1.getOrientation().getTheta() + coeff * deltaTheta;
+        
+        Location location = new Location(new Point(x,y));
+        Orientation orientation = new Orientation(theta);
+        
+        return new Positioning(location, orientation);
+    }
+
     public double getTheta(int ms) {
-
-        int t1 = getTickBeforeMs(ms);
-        int t2 = getTickAfter(t1);
-        double theta1 = thetas.get(t1);
-        if (t1 != t2) {
-            double theta2 = thetas.get(t1);
-            int ms1 = millis.get(t1);
-            int ms2 = millis.get(t2);
-            double coeff = (theta1 - theta2 + 0.0) / (ms1 - ms2);
-            return theta1 + (ms - ms1) * coeff;
-        } else {
-            return theta1;
-        }
-        //return thetas.get(getTickBefore(ms));
-
+       return getPositioning(ms).getOrientation().getTheta();
     }
 
     private int getTickBeforeMs(int ms) {
@@ -132,11 +136,10 @@ public class GhostTraject {
     }
 
     private int getTickAfter(int index) {
-        if (index + 1 < thetas.size()) {
+        if (index + 1 < positions.size()) {
             index++;
         }
         return index;
-
     }
 
 }
