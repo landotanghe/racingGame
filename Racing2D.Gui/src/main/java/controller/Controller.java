@@ -16,7 +16,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import views.RaceDetailsPanel;
 import model.Model;
-import model.RaceInfo;
+import repositories.races.RaceInfo;
 import views.App;
 import views.GhostSelectPanel;
 import views.IResizeOberver;

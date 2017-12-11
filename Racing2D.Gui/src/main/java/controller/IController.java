@@ -10,7 +10,7 @@ import exceptions.LoginException;
 import views.IResizeOberver;
 import java.util.ArrayList;
 import model.GhostTraject;
-import model.RaceInfo;
+import repositories.races.RaceInfo;
 
 /**
  *

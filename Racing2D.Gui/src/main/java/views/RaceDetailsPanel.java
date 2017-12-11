@@ -14,7 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import model.Model;
-import model.RaceInfo;
+import repositories.races.RaceInfo;
 
 /**
  *  interface with user:

@@ -5,6 +5,7 @@
  */
 package model;
 
+import repositories.races.RaceInfo;
 import data.ConnectionFactory;
 import repositories.ghosts.GhostRepository;
 import repositories.ghosts.IGhostRepository;
@@ -14,11 +15,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import repositories.races.FakeRaceRepository;
 import repositories.races.IRaceRepository;
+import repositories.races.RaceRepository;
 import repositories.racetrack.FakeRaceTrackRepository;
 import repositories.racetrack.IRaceTrackRepository;
 import repositories.rankings.IRankingsRepository;
@@ -52,7 +55,7 @@ public class Model implements IModel {
         _connectionFactory = new ConnectionFactory();
         //_raceTrackRepository = new RaceTrackRepository(_connectionFactory);
         _raceTrackRepository = new FakeRaceTrackRepository();
-        _raceRepository = new FakeRaceRepository();
+        _raceRepository = new RaceRepository();
         _rankingsRepository = new RankingsRepository(_connectionFactory);
         _ghostRepository = new GhostRepository(_connectionFactory);
         
@@ -66,7 +69,8 @@ public class Model implements IModel {
 
     @Override
     public ArrayList<RaceInfo> getRaceList(int count) {
-        return _raceRepository.getRaces(count);
+        RaceInfo[] array = _raceRepository.getRaces(count);
+        return new ArrayList<RaceInfo>(Arrays.asList(array));
     }
 
     @Override

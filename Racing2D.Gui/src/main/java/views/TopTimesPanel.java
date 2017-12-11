@@ -14,7 +14,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import model.Model;
-import model.RaceInfo;
+import repositories.races.RaceInfo;
 import model.Time;
 
 /**

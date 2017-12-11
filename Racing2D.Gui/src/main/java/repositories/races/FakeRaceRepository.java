@@ -6,7 +6,6 @@
 package repositories.races;
 
 import java.util.ArrayList;
-import model.RaceInfo;
 
 /**
  *
@@ -14,13 +13,13 @@ import model.RaceInfo;
  */
 public class FakeRaceRepository implements IRaceRepository{
 
-    public ArrayList<RaceInfo> getRaces(int count) {
+    public RaceInfo[] getRaces(int count) {
         ArrayList<RaceInfo> races = new ArrayList<RaceInfo>();
         for (int i = 0; i < count; i++) {
             RaceInfo race = new RaceInfo(i, "automated" + i, "Lando");
             races.add(race);
         }
-        return races;
+        return races.toArray(new RaceInfo[0]);
     }
     
 }

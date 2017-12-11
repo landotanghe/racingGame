@@ -22,64 +22,25 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Model;
-import model.RaceInfo;
+import org.springframework.web.client.RestTemplate;
 
 /**
  *
  * @author lando
  */
 public class RaceRepository implements IRaceRepository {
-    private final ConnectionFactory _connectionFactory;
-
-    public RaceRepository(ConnectionFactory _connectionFactory) {
-        this._connectionFactory = _connectionFactory;
+   
+    public RaceRepository() {
     }
         
     @Override
-    public ArrayList<RaceInfo> getRaces(int count) {
-        ArrayList<RaceInfo> races = new ArrayList<RaceInfo>();
-        try {
-            boolean retry = true;
-        while(retry){
-            try {
-                URL url = new URL("http://localhost:50248/races/");
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("GET");
-
-                int status = con.getResponseCode();
-
-                BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuffer content = new StringBuffer();
-                while ((inputLine = in.readLine()) != null) {
-                    content.append(inputLine);
-                }
-                in.close();
-                retry = false;
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ProtocolException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-            
-            
-            Connection con = _connectionFactory.getConnection();
-            try {
-                fill(races, con, count);
-            } finally {
-                con.close();
-            }
-        } catch (SQLException e) {
-            return new ArrayList<RaceInfo>();
-        }
-
+    public RaceInfo[] getRaces(int count) {
+        RestTemplate rest = new RestTemplate();
+        RaceInfo[] races;
+        races = rest.getForObject("http://localhost:50248/races/", RaceInfo[].class);
         return races;
     }
-    
+        
     private void fill(ArrayList<RaceInfo> races, Connection con, int count) {
         try {
             PreparedStatement stmt = con.prepareStatement("select top " + count + " * from tbl_circuits LIMIT 50"); //id, name, creator

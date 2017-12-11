@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import model.Model;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import model.RaceInfo;
+import repositories.races.RaceInfo;
 
 /**
  *a 2D racing game where you can choose to race tracks that are stored in an online database

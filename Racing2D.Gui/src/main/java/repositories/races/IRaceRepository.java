@@ -6,7 +6,6 @@
 package repositories.races;
 
 import java.util.ArrayList;
-import model.RaceInfo;
 
 /**
  *
@@ -14,6 +13,6 @@ import model.RaceInfo;
  */
 public interface IRaceRepository {
 
-    ArrayList<RaceInfo> getRaces(int aantal);
+    RaceInfo[] getRaces(int aantal);
     
 }

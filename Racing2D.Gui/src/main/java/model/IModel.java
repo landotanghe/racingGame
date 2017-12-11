@@ -6,6 +6,7 @@
 
 package model;
 
+import repositories.races.RaceInfo;
 import exceptions.LoginException;
 import java.awt.Point;
 import java.util.ArrayList;
