@@ -115,9 +115,7 @@ public class Controller implements IController {
             }
         } catch (Exception ex) {
             throw new LoginException(ex.getMessage());
-        }
-;
-        
+        }        
     }
 
     @Override

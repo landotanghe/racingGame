@@ -7,6 +7,7 @@
 package repositories.races;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  *  collection of info that is loaded from the database and locally stored
@@ -16,10 +17,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RaceInfo {
+    @JsonProperty("Id")
     private int id;
+    @JsonProperty("Name")
     private String name;
+    @JsonProperty("Creator")
     private String creator;//redundant, zodat creator niet verplicht bestaat in progr(geh. besparen)
-                                
+    
     public void setId(int id) {
         this.id = id;
     }
