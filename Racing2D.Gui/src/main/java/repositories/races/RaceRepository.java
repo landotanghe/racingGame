@@ -5,7 +5,15 @@
  */
 package repositories.races;
 
+import controller.Controller;
 import data.ConnectionFactory;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,6 +39,34 @@ public class RaceRepository implements IRaceRepository {
     public ArrayList<RaceInfo> getRaces(int count) {
         ArrayList<RaceInfo> races = new ArrayList<RaceInfo>();
         try {
+            boolean retry = true;
+        while(retry){
+            try {
+                URL url = new URL("http://localhost:50248/races/");
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+
+                int status = con.getResponseCode();
+
+                BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer content = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    content.append(inputLine);
+                }
+                in.close();
+                retry = false;
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ProtocolException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+            
+            
             Connection con = _connectionFactory.getConnection();
             try {
                 fill(races, con, count);

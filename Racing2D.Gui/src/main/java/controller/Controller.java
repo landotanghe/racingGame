@@ -102,34 +102,7 @@ public class Controller implements IController {
 
     @Override
     public void login(String login, String password) throws LoginException {
-        Authenticator authenticator;
-        boolean retry = true;
-        while(retry){
-            try {
-                URL url = new URL("http://localhost:50248/races/");
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("GET");
-
-                int status = con.getResponseCode();
-
-                BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-                String inputLine;
-                StringBuffer content = new StringBuffer();
-                while ((inputLine = in.readLine()) != null) {
-                    content.append(inputLine);
-                }
-                in.close();
-                retry = false;
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ProtocolException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        
+        Authenticator authenticator;               
         
         try {
             authenticator = new BasicAuthenticator(new ConnectionFactory());
