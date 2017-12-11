@@ -35,10 +35,12 @@ public class RacingPanel extends JPanel implements KeyListener {
     private FormattedTile[][] tiles;
     private BufferedImage tilesImage;
     private Track track;
+    private UserInputs inputs;
     
     public RacingPanel(Controller controller,Model model) {
         this.model = model;
         this.controller = controller;
+        inputs = new UserInputs();
         tiles = model.getRaceTrack();
         track = new Track(controller,model,tiles);
         setFocusable(true);
@@ -58,7 +60,7 @@ public class RacingPanel extends JPanel implements KeyListener {
         catch(DrivingException exc) {
             System.err.println(exc.getMessage());
         }
-        algorithm = new DrivingAlgorithm(DELAY,car,track,this,model,controller,ghostImage);
+        algorithm = new DrivingAlgorithm(DELAY,car,track,this,model,controller,ghostImage, inputs);
         algorithm.start();
     }
     
@@ -72,34 +74,12 @@ public class RacingPanel extends JPanel implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_UP ) {
-            algorithm.upKeyPressed();
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            algorithm.leftKeyPressed();
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            algorithm.rightKeyPressed();
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            algorithm.downKeyPressed();
-        }
+        inputs.keyPressed(e);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_UP ) {
-            algorithm.upKeyReleased();
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            algorithm.leftKeyReleased();
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            algorithm.rightKeyReleased();
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            algorithm.downKeyReleased();
-        }
+        inputs.keyReleased(e);
     }
 
     public void keyTyped(KeyEvent e) {

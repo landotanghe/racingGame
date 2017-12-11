@@ -30,10 +30,8 @@ public class DrivingAlgorithm implements ActionListener {
     private Car car;
     private Track track;
     private RacingPanel panel;
-    private boolean isKeyUp = false;
-    private boolean isKeyLeft = false;
-    private boolean isKeyRight = false;
-    private boolean isKeyDown = false;
+    private UserInputs inputs;
+    
     private Timer timer;
     private GameTimer gameTimer;
    // private Stopwatch stopWatch;
@@ -45,13 +43,14 @@ public class DrivingAlgorithm implements ActionListener {
     private Controller controller;
     private BufferedImage ghostImage;
 
-    public DrivingAlgorithm(int delay, Car car, Track track, RacingPanel panel, Model model, Controller controller, BufferedImage ghostImage) {
+    public DrivingAlgorithm(int delay, Car car, Track track, RacingPanel panel, Model model, Controller controller, BufferedImage ghostImage, UserInputs inputs) {
         this.controller = controller;
         this.ghostImage = ghostImage;
         this.model=model;
         this.track = track;
         this.car = car;
         this.panel = panel;
+        this.inputs = inputs;
         timer = new Timer(delay, this);
         gameTimer = new GameTimer(timer);
         laps = -1;
@@ -64,20 +63,25 @@ public class DrivingAlgorithm implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         int friction = track.getFriction((int)car.getX(),(int)car.getY());
         double timeDifference = gameTimer.getLastIntervalInMillis();
-        if (isKeyUp) {
+        
+        
+        if (inputs.isThrottlePressed()) {
             car.accelerate(timeDifference,friction);
-        } else if (isKeyDown) {
+        } else if (inputs.isBrakePressed()) {
             car.backwards(timeDifference,friction);
         } else {
             car.slowDown(timeDifference,friction);
         }
-        if (isKeyLeft) {
+        
+        if (inputs.isSteeringLeftPressed()) {
             car.turnCounterClockWise(timeDifference);
-        } else if (isKeyRight) {
+        } else if (inputs.isSteeringRightPressed()) {
             car.turnClockWise(timeDifference);
         } else {
             car.stopTurning(timeDifference);
         }
+        
+        
         Point[] cornerPixels = car.getCornerPixels(timeDifference, friction);
         if (track.isValidMove(cornerPixels)) {
             car.rotate(timeDifference, friction);
@@ -133,38 +137,6 @@ public class DrivingAlgorithm implements ActionListener {
 
     public void stop() {
         timer.stop();
-    }
-
-    void upKeyPressed() {
-        isKeyUp = true;
-    }
-
-    void leftKeyPressed() {
-        isKeyLeft = true;
-    }
-
-    void rightKeyPressed() {
-        isKeyRight = true;
-    }
-
-    void downKeyPressed() {
-        isKeyDown = true;
-    }
-
-    void upKeyReleased() {
-        isKeyUp = false;
-    }
-
-    void leftKeyReleased() {
-        isKeyLeft = false;
-    }
-
-    void rightKeyReleased() {
-        isKeyRight = false;
-    }
-
-    void downKeyReleased() {
-        isKeyDown = false;
     }
 
     private void setInitialCameraLocation() {
