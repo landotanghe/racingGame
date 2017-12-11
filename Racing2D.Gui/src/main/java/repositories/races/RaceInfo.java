@@ -22,22 +22,8 @@ public class RaceInfo {
     @JsonProperty("Name")
     private String name;
     @JsonProperty("Creator")
-    private String creator;//redundant, zodat creator niet verplicht bestaat in progr(geh. besparen)
+    private String creator;
     
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    //private User creator;//enkel maken in racedetails, relatie met race overbodig?
-    // private Time time;
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
     public RaceInfo() {
     }
 
@@ -55,8 +41,19 @@ public class RaceInfo {
         return name;
     }
 
-
     public String getCreatorName() {
         return creator;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 }
