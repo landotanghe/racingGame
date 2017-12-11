@@ -27,7 +27,6 @@ import model.positioning.Positioning;
  */
 public class DrivingAlgorithm implements ActionListener {
 
-    private Timer timer;
     private Car car;
     private Track track;
     private RacingPanel panel;
@@ -35,8 +34,9 @@ public class DrivingAlgorithm implements ActionListener {
     private boolean isKeyLeft = false;
     private boolean isKeyRight = false;
     private boolean isKeyDown = false;
-    private Stopwatch stopWatch;
-    private double previousTime, currentTime;
+    private Timer timer;
+    private GameTimer gameTimer;
+   // private Stopwatch stopWatch;
     private boolean isFinishAvailable = true;
     public double laps;
     private GhostTraject ghostSave;
@@ -45,7 +45,7 @@ public class DrivingAlgorithm implements ActionListener {
     private Controller controller;
     private BufferedImage ghostImage;
 
-    public DrivingAlgorithm(int delay, Car car, Track track, RacingPanel panel, Stopwatch stopwatch, Model model, Controller controller, BufferedImage ghostImage) {
+    public DrivingAlgorithm(int delay, Car car, Track track, RacingPanel panel, Model model, Controller controller, BufferedImage ghostImage) {
         this.controller = controller;
         this.ghostImage = ghostImage;
         this.model=model;
@@ -53,7 +53,7 @@ public class DrivingAlgorithm implements ActionListener {
         this.car = car;
         this.panel = panel;
         timer = new Timer(delay, this);
-        stopWatch = stopwatch;
+        gameTimer = new GameTimer(timer);
         laps = -1;
         ghostSave = new GhostTraject(0);
         setInitialCameraLocation();
@@ -63,9 +63,7 @@ public class DrivingAlgorithm implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         int friction = track.getFriction((int)car.getX(),(int)car.getY());
-        currentTime = System.currentTimeMillis();
-        double timeDifference = currentTime - previousTime;
-        stopWatch.addMillis(timeDifference);
+        double timeDifference = gameTimer.getLastIntervalInMillis();
         if (isKeyUp) {
             car.accelerate(timeDifference,friction);
         } else if (isKeyDown) {
@@ -91,7 +89,7 @@ public class DrivingAlgorithm implements ActionListener {
         }
         //TODO separate ghostSaver from ghostReader
         Positioning p = new Positioning(new Location((int) car.getX(),(int) car.getY()), new Orientation(car.getAngle()));
-        ghostSave.addTick(p, stopWatch.getMillis());
+        ghostSave.addTick(p, (int) gameTimer.getTotalTimePassed());
         if (track.checkAtFinish(cornerPixels)) {
             if (isFinishAvailable) {
                 handleLaps();
@@ -104,14 +102,14 @@ public class DrivingAlgorithm implements ActionListener {
             stop();
             handleFinish();
         }
-        previousTime = currentTime;
+        gameTimer.startNextInterval();
         panel.repaint();
     }
     
     public void displayGhosts(Graphics g) {
         for (int i=0; i<ghosts.size(); i++) {
             GhostTraject ghost = ghosts.get(i);
-            int millis = stopWatch.getMillis();
+            int millis = (int) gameTimer.getTotalTimePassed();
             Point relativeLocation = ghost.getLocation(millis);
             int xTeken = (int)(relativeLocation.x - car.getX() + controller.getScreenWidth()/2);
             int yTeken = (int)(relativeLocation.y - car.getY() + controller.getScreenHeight()/2);
@@ -130,7 +128,7 @@ public class DrivingAlgorithm implements ActionListener {
     
     public void start() {
         timer.start();
-        previousTime = System.currentTimeMillis();
+        gameTimer.start();
     }
 
     public void stop() {
@@ -178,14 +176,15 @@ public class DrivingAlgorithm implements ActionListener {
     }
 
     private void handleFinish() {
-        String message = "Uw tijd was " + stopWatch.getTimeString() + ". Ghost opslaan?";
+        final int ms = (int) gameTimer.getTotalTimePassed();
+        String message = "Uw tijd was " + ms+ "ms . Ghost opslaan?";
         int answer = JOptionPane.showConfirmDialog(panel, message, "Proficiat!", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
         if (answer == JOptionPane.YES_OPTION) {
             SwingWorker worker = new SwingWorker<Void, Void>() {
                 @Override
                 public Void doInBackground() {
-                    controller.saveAll(ghostSave, stopWatch.getMillis());
-                    controller.saveTime(stopWatch.getMillis());
+                    controller.saveAll(ghostSave, ms);
+                    controller.saveTime(ms);
                     return null;
                 }
                 @Override

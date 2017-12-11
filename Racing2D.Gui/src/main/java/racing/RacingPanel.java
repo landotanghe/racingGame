@@ -29,7 +29,6 @@ public class RacingPanel extends JPanel implements KeyListener {
     private static final int DELAY=10;
     private Car car;
     private DrivingAlgorithm algorithm;
-    private Stopwatch stopWatch;
     private Font stopWatchFont;
     private Model model;
     private Controller controller;
@@ -59,9 +58,7 @@ public class RacingPanel extends JPanel implements KeyListener {
         catch(DrivingException exc) {
             System.err.println(exc.getMessage());
         }
-        stopWatchFont = new Font("Arial",Font.BOLD,24);
-        stopWatch = new Stopwatch(20,30,0,0,0,stopWatchFont);
-        algorithm = new DrivingAlgorithm(DELAY,car,track,this,stopWatch,model,controller,ghostImage);
+        algorithm = new DrivingAlgorithm(DELAY,car,track,this,model,controller,ghostImage);
         algorithm.start();
     }
     
@@ -69,7 +66,6 @@ public class RacingPanel extends JPanel implements KeyListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         track.display(g);
-        stopWatch.display(g);
         algorithm.displayGhosts(g);
         car.display(g);
     }
