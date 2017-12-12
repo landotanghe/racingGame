@@ -29,7 +29,7 @@ import login.Authenticator;
 import login.BasicAuthenticator;
 import login.FakeAuthenticator;
 import login.LoginResult;
-import model.GhostTraject;
+import model.GhostTracker;
 import racing.RacingPanel;
 
 /**
@@ -58,7 +58,7 @@ public class Controller implements IController {
     }
 
     @Override
-    public void saveAll(GhostTraject ghost, int ms) {
+    public void saveAll(GhostTracker ghost, int ms) {
         model.saveGhost(ghost);
         model.saveTime(ms);
     }

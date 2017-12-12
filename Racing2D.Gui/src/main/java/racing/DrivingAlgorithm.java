@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
-import model.GhostTraject;
+import model.GhostReplay;
+import model.GhostTracker;
 import model.Model;
 import model.positioning.Location;
 import model.positioning.Orientation;
@@ -37,13 +38,14 @@ public class DrivingAlgorithm implements ActionListener {
    // private Stopwatch stopWatch;
     private boolean isFinishAvailable = true;
     public double laps;
-    private GhostTraject ghostSave;
-    private ArrayList<GhostTraject> ghosts;
+    private GhostTracker ghostSave;
+    private ArrayList<GhostReplay> ghosts;
     private Model model;
     private Controller controller;
     private BufferedImage ghostImage;
 
-    public DrivingAlgorithm(int delay, Car car, Track track, RacingPanel panel, Model model, Controller controller, BufferedImage ghostImage, UserInputs inputs) {
+    public DrivingAlgorithm(int delay, Car car, Track track, RacingPanel panel, Model model, Controller controller, BufferedImage ghostImage, UserInputs inputs,
+            ArrayList<GhostReplay> ghosts) {
         this.controller = controller;
         this.ghostImage = ghostImage;
         this.model=model;
@@ -54,9 +56,9 @@ public class DrivingAlgorithm implements ActionListener {
         timer = new Timer(delay, this);
         gameTimer = new GameTimer(timer);
         laps = -1;
-        ghostSave = new GhostTraject(0);
+        ghostSave = new GhostTracker(0);
         setInitialCameraLocation();
-        ghosts = model.getGhostTrajects();
+        this.ghosts = ghosts;
     }
 
     @Override
@@ -112,7 +114,7 @@ public class DrivingAlgorithm implements ActionListener {
     
     public void displayGhosts(Graphics g) {
         for (int i=0; i<ghosts.size(); i++) {
-            GhostTraject ghost = ghosts.get(i);
+            GhostReplay ghost = ghosts.get(i);
             int millis = (int) gameTimer.getTotalTimePassed();
             Point relativeLocation = ghost.getLocation(millis);
             int xTeken = (int)(relativeLocation.x - car.getX() + controller.getScreenWidth()/2);

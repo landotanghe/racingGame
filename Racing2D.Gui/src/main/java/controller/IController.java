@@ -9,7 +9,7 @@ package controller;
 import exceptions.LoginException;
 import views.IResizeOberver;
 import java.util.ArrayList;
-import model.GhostTraject;
+import model.GhostTracker;
 import repositories.races.RaceInfo;
 
 /**
@@ -26,7 +26,7 @@ public interface IController {
 
     void login(String login, String password) throws LoginException;
 
-    void saveAll(GhostTraject ghost, int ms);
+    void saveAll(GhostTracker ghost, int ms);
 
     void saveTime(int ms);
 

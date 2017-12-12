@@ -18,7 +18,7 @@ import model.positioning.Positioning;
  *
  * @author Lando
  */
-public class GhostTraject {
+public class GhostTracker {
 
     //lees en schrijf ticks niet afwisselend, doe opeenvolgende leesoperaties na elkaar, net als schrijfoperaties
     //vergeet niet resetTick() op te roepen om ticks te herschrijven of te herlezen
@@ -27,7 +27,7 @@ public class GhostTraject {
     private ArrayList<Positioning> positions;
     private int currentTick;
 
-    public GhostTraject(int size) {
+    public GhostTracker(int size) {
         positions = new ArrayList<Positioning>();
         millis = new ArrayList<Integer>();
         for (int i = 0; i < size; i++) {
@@ -84,62 +84,4 @@ public class GhostTraject {
     public double getMillis() {
         return millis.get(currentTick);
     }
-    
-    public Point getLocation(int ms) {
-       return getPositioning(ms).getLocation().getPoint();
-    }
-
-    public Positioning getPositioning(int ms) {
-
-        int t1 = getTickBeforeMs(ms);
-        int t2 = getTickAfter(t1);
-        Positioning p1 = positions.get(t1);
-        if (t1 != t2) {
-            return getAveragePosition(t1, t2, ms, p1);
-        } else {
-            return p1;
-        }
-        //return new Point(locations.get(getTickBefore(ms)).x, locations.get(getTickBefore(ms)).y);
-    }
-
-    public Positioning getAveragePosition(int t1, int t2, int ms, Positioning p1) {
-        Positioning p2 = positions.get(t1);
-        int ms1 = millis.get(t1);
-        int ms2 = millis.get(t2);
-        
-        double coeff = (ms - ms1) / (ms1 - ms2);
-        
-        double deltaX = (p1.getX() - p2.getX() + 0.0);
-        double deltaY = (p1.getY() - p2.getY() + 0.0);
-        double deltaTheta = (p1.getOrientation().getTheta() - p2.getOrientation().getTheta());
-        
-        int x = (int) (p1.getLocation().getPoint().x + coeff * deltaX);
-        int y = (int) (p1.getLocation().getPoint().y + coeff * deltaY);
-        double theta = p1.getOrientation().getTheta() + coeff * deltaTheta;
-        
-        Location location = new Location(new Point(x,y));
-        Orientation orientation = new Orientation(theta);
-        
-        return new Positioning(location, orientation);
-    }
-
-    public double getTheta(int ms) {
-       return getPositioning(ms).getOrientation().getTheta();
-    }
-
-    private int getTickBeforeMs(int ms) {
-        int i = 0;
-        while (i + 1 < millis.size() && millis.get(i + 1) < ms) {
-            i++;
-        }
-        return i;
-    }
-
-    private int getTickAfter(int index) {
-        if (index + 1 < positions.size()) {
-            index++;
-        }
-        return index;
-    }
-
 }

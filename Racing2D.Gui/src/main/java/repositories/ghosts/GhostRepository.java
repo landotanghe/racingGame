@@ -13,7 +13,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import model.GhostInfo;
-import model.GhostTraject;
+import model.GhostReplay;
+import model.GhostTracker;
 import model.Model;
 import model.Time;
 import model.User;
@@ -33,7 +34,7 @@ public class GhostRepository implements IGhostRepository {
     }
     
     @Override
-    public void saveGhost(int raceId, User user, GhostTraject ghost) {
+    public void saveGhost(int raceId, User user, GhostTracker ghost) {
         Logger.getLogger(Model.class.getName()).info("saving ghostdata...");
         try {
             Connection con = _connectionFactory.getConnection();
@@ -106,10 +107,10 @@ public class GhostRepository implements IGhostRepository {
     }
     
     @Override
-    public ArrayList<GhostTraject> getGhostTrajects(ArrayList<Integer> ghostIds) {
-        ArrayList<GhostTraject> ghosts = new ArrayList<GhostTraject>();
+    public ArrayList<GhostReplay> getGhostReplays(ArrayList<Integer> ghostIds) {
+        ArrayList<GhostReplay> ghosts = new ArrayList<GhostReplay>();
         for (int i = 0; i < ghostIds.size(); i++) {
-            GhostTraject ghost = getGhostTraject(ghostIds.get(i));
+            GhostReplay ghost = getGhostTraject(ghostIds.get(i));
             if (ghost != null) {
                 ghosts.add(ghost);
             }
@@ -117,11 +118,13 @@ public class GhostRepository implements IGhostRepository {
         return ghosts;
     }
 
-    private GhostTraject getGhostTraject(int ghostId) {
-        GhostTraject ghost = null;
+    private GhostReplay getGhostTraject(int ghostId) {
         try {
             Connection con = _connectionFactory.getConnection();
             try {
+                ArrayList<Integer> millis = new ArrayList<Integer>();
+                ArrayList<Positioning> positions = new ArrayList<Positioning>();
+                
                 //aantal ticks opvragen
                 PreparedStatement aantalStmt = con.prepareStatement("select count(1) from tbl_ghost_ticks where gid = ?");
                 aantalStmt.setInt(1, ghostId);
@@ -130,11 +133,9 @@ public class GhostRepository implements IGhostRepository {
                 int size = r.getInt(1);
                 if (size == 0) {
                     return null;
-                } else {
-                    ghost = new GhostTraject(r.getInt(1));
                 }
                 //ticks inladen in ghost
-                PreparedStatement stmt = con.prepareStatement("select tick_nr,x,y,theta,ms FROM tbl_ghost_ticks where gid=?");
+                PreparedStatement stmt = con.prepareStatement("select tick_nr,x,y,theta,ms FROM tbl_ghost_ticks where gid=? order by tick_nr");
                 stmt.setInt(1, ghostId);
                 ResultSet rs = stmt.executeQuery();
                 while (rs.next()) {
@@ -144,10 +145,11 @@ public class GhostRepository implements IGhostRepository {
                     double theta = rs.getDouble(4);
                     int ms = rs.getInt(5);
                     
-                    //TODO separate ghostSaver from ghostReader + init as list instead of addTicks method
                     Positioning p = new Positioning(new Location(x, y), new Orientation(theta));
-                    ghost.addTick(p, ms, tick_nr);
+                    millis.add(ms);
+                    positions.add(p);
                 }
+                return new GhostReplay(millis, positions);
             } finally {
                 con.close();
             }
@@ -155,7 +157,6 @@ public class GhostRepository implements IGhostRepository {
             Logger.getLogger(Model.class.getName()).warning("could not load ghost");
             return null;
         }
-        return ghost;
     }
 
     @Override

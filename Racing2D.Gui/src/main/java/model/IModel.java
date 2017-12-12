@@ -21,7 +21,7 @@ public interface IModel {
 
     ArrayList<GhostInfo> getGhostInfos();
 
-    ArrayList<GhostTraject> getGhostTrajects();
+    ArrayList<GhostReplay> getGhostReplays();
 
     Time getPersonelBestTime();
 
@@ -35,7 +35,7 @@ public interface IModel {
 
     ArrayList<Time> getRankings(int topN);
 
-    void saveGhost(GhostTraject ghost);
+    void saveGhost(GhostTracker ghost);
 
     void saveTime(int ms);
 

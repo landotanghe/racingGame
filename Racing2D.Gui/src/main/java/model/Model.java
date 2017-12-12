@@ -99,7 +99,7 @@ public class Model implements IModel {
     }
 
     @Override
-    public void saveGhost(GhostTraject ghost) {
+    public void saveGhost(GhostTracker ghost) {
         _ghostRepository.saveGhost(raceInfo.getId(), user, ghost);
     }
 
@@ -109,8 +109,8 @@ public class Model implements IModel {
     }
 
     @Override
-    public ArrayList<GhostTraject> getGhostTrajects() {
-        return _ghostRepository.getGhostTrajects(_ghostIds);
+    public ArrayList<GhostReplay> getGhostReplays() {
+        return _ghostRepository.getGhostReplays(_ghostIds);
     }
 
 

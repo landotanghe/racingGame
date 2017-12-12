@@ -7,7 +7,8 @@ package repositories.ghosts;
 
 import java.util.ArrayList;
 import model.GhostInfo;
-import model.GhostTraject;
+import model.GhostReplay;
+import model.GhostTracker;
 import model.User;
 
 /**
@@ -20,8 +21,8 @@ public interface IGhostRepository {
 
     ArrayList<GhostInfo> getGhostInfos(int raceId);
 
-    ArrayList<GhostTraject> getGhostTrajects(ArrayList<Integer> gids);
+    ArrayList<GhostReplay> getGhostReplays(ArrayList<Integer> gids);
 
-    void saveGhost(int raceId, User user, GhostTraject ghost);
+    void saveGhost(int raceId, User user, GhostTracker ghost);
     
 }

@@ -12,10 +12,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import model.FormattedTile;
+import model.GhostReplay;
 import model.Model;
 
 /**
@@ -60,7 +62,7 @@ public class RacingPanel extends JPanel implements KeyListener {
         catch(DrivingException exc) {
             System.err.println(exc.getMessage());
         }
-        algorithm = new DrivingAlgorithm(DELAY,car,track,this,model,controller,ghostImage, inputs);
+        algorithm = new DrivingAlgorithm(DELAY,car,track,this,model,controller,ghostImage, inputs, new ArrayList<GhostReplay>());
         algorithm.start();
     }
     
