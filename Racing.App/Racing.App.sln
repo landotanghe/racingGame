@@ -1,12 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Racing.App", "Racing.App.csproj", "{609F33AC-74D4-D6DD-68D0-EDE32E00A27A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{609F33AC-74D4-D6DD-68D0-EDE32E00A27A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{609F33AC-74D4-D6DD-68D0-EDE32E00A27A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{609F33AC-74D4-D6DD-68D0-EDE32E00A27A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{609F33AC-74D4-D6DD-68D0-EDE32E00A27A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
