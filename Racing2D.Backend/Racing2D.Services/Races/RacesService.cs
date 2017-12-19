@@ -13,5 +13,14 @@ namespace Racing2D.Services
                 new RaceInfo {Id = 2, Creator="Jaron", Name="square" }
             };
         }
+
+        public TileType[][] GetRaceTrack(int id)
+        {
+            return new TileType[][]
+            {
+                new TileType[] { TileType.NorthEast, TileType.EastWest, TileType.NorthWest},
+                new TileType[] { TileType.SouthEast, TileType.EastWest, TileType.SouthWest },
+            };
+        }
     }
 }
