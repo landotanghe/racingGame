@@ -14,12 +14,31 @@ namespace Racing2D.Services
             };
         }
 
-        public TileType[][] GetRaceTrack(int id)
+        public Track GetRaceTrack(int id)
+        {
+            return new Track
+            {
+                Tiles = Dummy1(),
+                StartPosition = new StartPosition { X = 1, Y = 1 }
+            };
+        }
+
+        private static TileType[][] Dummy1()
         {
             return new TileType[][]
             {
-                new TileType[] { TileType.NorthEast, TileType.EastWest, TileType.NorthWest},
+                new TileType[] { TileType.SouthEast, TileType.SouthWest, TileType.NoRoads, TileType.NoRoads },
+                new TileType[] { TileType.NorthEast, TileType.Crossroads, TileType.EastWest, TileType.SouthWest},
+                new TileType[] { TileType.NoRoads, TileType.NorthEast, TileType.EastWest, TileType.NorthWest},
+            };
+        }
+
+        private static TileType[][] Dummy2()
+        {
+            return new TileType[][]
+            {
                 new TileType[] { TileType.SouthEast, TileType.EastWest, TileType.SouthWest },
+                new TileType[] { TileType.NorthEast, TileType.EastWest, TileType.NorthWest},
             };
         }
     }

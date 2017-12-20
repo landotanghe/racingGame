@@ -6,16 +6,10 @@ public class MapBuilder : MonoBehaviour {
     public int width;
     public int height;
     public GameObject eastWestRoad;
-    public GameObject northSouthRoad;
     public GameObject crossRoads;
     public GameObject noRoad;
-
-
     public GameObject northEastCorner;
-    public GameObject southEastCorner;
-    public GameObject northWestCorner;
-    public GameObject southWestCorner;
-
+    public GameObject player;
 
     // Use this for initialization
     void Start ()
@@ -51,46 +45,78 @@ public class MapBuilder : MonoBehaviour {
         catch (Exception e)
         {
             Debug.Log(e.ToString());
+            var track = new Track
+            {
+                StartPosition = new StartPosition { X = 0, Y = 0 },
+                Tiles = new int[][]
+                {
+                    new int[]{1}
+                }
+            };
+            Create(track);
         }
     }
 
 
     private void Create(Track track)
     {
-        System.Random r = new System.Random();
-        for (int z = 0; z < track.Tiles.Length; z++)
-        {
-            for (int x = 0; x < track.Tiles[0].Length; x++)
-            {
-                var index = track.Tiles[z][x];//r.Next(14);
-                var prefab = GetPrefab(index);
+        var roadDefinitions = InitializeRoadDefinitions();
 
-                //GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                //cube.AddComponent<Rigidbody>();
-                //var renderer = cube.GetComponent<Renderer>();
-                //if ((x + z) % 2 == 0)
-                //    renderer.material.SetColor("_Color", Color.red);
-                //cube.transform.position = new Vector3(x, 1, z);
+        player.transform.position = new Vector3(TileRadius * track.StartPosition.X, 5, TileRadius * track.StartPosition.Y);
+
+        var height = track.Tiles.Length;
+        var width = track.Tiles[0].Length;
+
+        for (int z = 0; z < height; z++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                var index = track.Tiles[height-z-1][x];
+
                 var position = new Vector3(TileRadius * x, 1, TileRadius * z);
-                Instantiate(prefab, position, Quaternion.identity);
+                Instantiate(roadDefinitions[index], position);
             }
         }
     }
 
-    private GameObject GetPrefab(int index)
+    private void Instantiate(RoadDefinition roadDefinition, Vector3 position)
     {
-        switch (index)
-        {
-            case 0: return northSouthRoad;
-            case 1: return eastWestRoad;
-            case 2: return crossRoads;
-            case 3: return northEastCorner;
-            case 4: return northWestCorner;
-            case 5: return southEastCorner;
-            case 6: return southWestCorner;
-            case 7: return noRoad;
-        }
-        return crossRoads;
-
+        Instantiate(roadDefinition.Prefab, position, Quaternion.AngleAxis(roadDefinition.OrientationInDegrees, Vector3.up));
     }
+
+    private class RoadDefinition
+    {
+        public GameObject Prefab { get; private set; }
+        public int OrientationInDegrees { get; private set; }
+
+        public RoadDefinition(GameObject prefab, int orientationInDegrees)
+        {
+            Prefab = prefab;
+            OrientationInDegrees = orientationInDegrees;
+        }
+    }
+
+    private RoadDefinition[] InitializeRoadDefinitions()
+    {
+        RoadDefinition[] roadDefinitions = new RoadDefinition[] {
+            new RoadDefinition(noRoad, 0),
+            new RoadDefinition(eastWestRoad, 90),
+            new RoadDefinition(eastWestRoad, 0),
+            new RoadDefinition(crossRoads, 0),
+            new RoadDefinition(northEastCorner, 0),
+            new RoadDefinition(northEastCorner, -90),
+            new RoadDefinition(northEastCorner, 90),
+            new RoadDefinition(northEastCorner, 180),
+        };
+
+        return roadDefinitions;
+    }
+
+
+    //GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+    //cube.AddComponent<Rigidbody>();
+    //var renderer = cube.GetComponent<Renderer>();
+    //if ((x + z) % 2 == 0)
+    //    renderer.material.SetColor("_Color", Color.red);
+    //cube.transform.position = new Vector3(x, 1, z);
 }

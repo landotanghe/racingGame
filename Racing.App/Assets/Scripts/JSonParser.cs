@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System;

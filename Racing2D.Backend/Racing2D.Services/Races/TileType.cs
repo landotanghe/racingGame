@@ -2,6 +2,8 @@
 {
     public enum TileType
     {
+        NoRoads,
+
         NorthSouth,
         EastWest,
         Crossroads,
@@ -11,7 +13,5 @@
 
         SouthEast,
         SouthWest,
-
-        Blocked
     }
 }

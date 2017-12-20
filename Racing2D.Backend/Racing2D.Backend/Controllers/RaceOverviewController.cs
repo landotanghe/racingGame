@@ -21,15 +21,7 @@ namespace Racing2D.Backend.Controllers
         [Route("track")]
         public Track GetRaceTrack()
         {
-            return new Track
-            {
-                Tiles = _racesService.GetRaceTrack(0)
-            };
+            return _racesService.GetRaceTrack(0);
         }
-    }
-
-    public class Track
-    {
-        public TileType[][] Tiles { get; set; }
     }
 }

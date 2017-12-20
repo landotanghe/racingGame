@@ -184,18 +184,11 @@ MonoBehaviour:
   height: 50
   eastWestRoad: {fileID: 1716874035793902, guid: 52ce02914b2d5874a8cb745bdde318d4,
     type: 2}
-  northSouthRoad: {fileID: 1119185484304420, guid: e04b39e2f736fe54f8181f36b0fc68f8,
-    type: 2}
   crossRoads: {fileID: 1991910811064462, guid: 3162292777db27c4ea9e15a5387adb1e, type: 2}
   noRoad: {fileID: 1870649541211338, guid: bf0a94b6365334542b979dbfcbdfc57b, type: 2}
-  northEastCorner: {fileID: 1729977668300202, guid: 54920a9da70a25844b1f9323cad32b60,
+  northEastCorner: {fileID: 1321036326557882, guid: 54920a9da70a25844b1f9323cad32b60,
     type: 2}
-  southEastCorner: {fileID: 1702085147676886, guid: e13fc833921ad074f96ae24d4a629615,
-    type: 2}
-  northWestCorner: {fileID: 1298925817294364, guid: fe4058da058ff6e49be36a77750bcde1,
-    type: 2}
-  southWestCorner: {fileID: 1856930278962096, guid: 8d3bd4c529952db49accc94c7fb7a641,
-    type: 2}
+  player: {fileID: 867236376}
 --- !u!4 &420573090
 Transform:
   m_ObjectHideFlags: 0
