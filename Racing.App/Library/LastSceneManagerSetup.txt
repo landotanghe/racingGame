@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Racing.unity
+- path: Assets/Prefabs/CustomMapBuilder.unity
   isLoaded: 1
   isActive: 1
