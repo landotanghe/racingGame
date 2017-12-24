@@ -1,4 +1,6 @@
-﻿using Racing2D.Services.Races;
+﻿using MongoDB.Driver;
+using Racing2D.Services.Races;
+using System;
 using System.Collections.Generic;
 
 namespace Racing2D.Services
@@ -31,6 +33,14 @@ namespace Racing2D.Services
                 new TileType[] { TileType.NorthEast, TileType.Crossroads, TileType.EastWest, TileType.SouthWest},
                 new TileType[] { TileType.NoRoads, TileType.NorthEast, TileType.EastWest, TileType.NorthWest},
             };
+        }
+
+        public void SaveRaceTrack(Track track)
+        {
+            var client = new MongoClient();//TODO pass in connection string with config file
+            var db = client.GetDatabase("Racing");
+            var tracks = db.GetCollection<Track>("tracks");
+            tracks.InsertOne(track);
         }
 
         private static TileType[][] Dummy2()

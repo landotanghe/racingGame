@@ -29,11 +29,7 @@ namespace Racing2D.Backend.Controllers
         [Route("track")]
         public void SaveRaceTrack(Track track)
         {
-            Console.Write("hello");
-            if(3.ToString() == "3")
-            {
-                Console.Write("world");
-            }
+            _racesService.SaveRaceTrack(track);
         }
     }
 }

@@ -56,3 +56,10 @@ F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\bin\System.Web.Ht
 F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\obj\Debug\Racing2D.Backend.csprojResolveAssemblyReference.cache
 F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\obj\Debug\Racing2D.Backend.dll
 F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\obj\Debug\Racing2D.Backend.pdb
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\bin\MongoDB.Driver.dll
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\bin\MongoDB.Bson.dll
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\bin\MongoDB.Driver.Core.dll
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\bin\MongoDB.Driver.xml
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\bin\MongoDB.Bson.xml
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\bin\MongoDB.Driver.Core.xml
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\obj\Debug\Racing2D.Backend.csproj.CoreCompileInputs.cache

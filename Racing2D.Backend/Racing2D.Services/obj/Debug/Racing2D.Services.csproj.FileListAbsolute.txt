@@ -3,3 +3,10 @@ F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\bin\Debug\Racing
 F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\obj\Debug\Racing2D.Services.csprojResolveAssemblyReference.cache
 F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\obj\Debug\Racing2D.Services.dll
 F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\obj\Debug\Racing2D.Services.pdb
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\bin\Debug\MongoDB.Bson.dll
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\bin\Debug\MongoDB.Driver.Core.dll
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\bin\Debug\MongoDB.Driver.dll
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\bin\Debug\MongoDB.Bson.xml
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\bin\Debug\MongoDB.Driver.xml
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\bin\Debug\MongoDB.Driver.Core.xml
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\obj\Debug\Racing2D.Services.csproj.CoreCompileInputs.cache
