@@ -1,0 +1,11 @@
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\bin\Release\Racing2D.Services.dll
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\bin\Release\Racing2D.Services.pdb
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\bin\Release\MongoDB.Bson.dll
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\bin\Release\MongoDB.Driver.Core.dll
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\bin\Release\MongoDB.Driver.dll
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\bin\Release\MongoDB.Bson.xml
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\bin\Release\MongoDB.Driver.xml
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\bin\Release\MongoDB.Driver.Core.xml
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\obj\Release\Racing2D.Services.csproj.CoreCompileInputs.cache
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\obj\Release\Racing2D.Services.dll
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Services\obj\Release\Racing2D.Services.pdb
