@@ -94,3 +94,4 @@ F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\bin\System.Diagno
 F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\bin\System.Reactive.Core.xml
 F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\bin\System.Reactive.Interfaces.xml
 F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\bin\System.Reactive.Linq.xml
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\bin\System.Runtime.InteropServices.RuntimeInformation.dll

@@ -1,6 +1,5 @@
 ﻿using Racing2D.Services;
 using Racing2D.Services.Races;
-using System;
 using System.Collections.Generic;
 using System.Web.Http;
 
@@ -19,14 +18,14 @@ namespace Racing2D.Backend.Controllers
         }
 
         [HttpGet()]
-        [Route("track")]
-        public Track GetRaceTrack()
+        [Route("{id}")]
+        public Track GetRaceTrack(string id)
         {
-            return _racesService.GetRaceTrack(0);
+            return _racesService.GetRaceTrack(id);
         }
 
         [HttpPost()]
-        [Route("track")]
+        [Route("")]
         public void SaveRaceTrack(Track track)
         {
             _racesService.SaveRaceTrack(track);

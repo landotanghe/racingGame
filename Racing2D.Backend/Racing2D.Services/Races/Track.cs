@@ -1,11 +1,12 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace Racing2D.Services.Races
 {
     public class Track
     {
-        [BsonId]
-        public int Id { get; set; }
+        [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
+        public string Id { get; set; }
         [BsonElement]
         public TileType[][] Tiles { get; set; }
         [BsonElement]
