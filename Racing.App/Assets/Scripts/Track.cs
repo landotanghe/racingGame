@@ -1,5 +1,6 @@
 ﻿public class Track
 {
+    public string Id { get; set; }
     public TileType[][] Tiles { get; set; }
     public StartPosition StartPosition { get; set; }
 }

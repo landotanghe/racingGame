@@ -41,14 +41,24 @@ public class MapBuilder : MonoBehaviour {
             {
                 var p = rayTarget.point;
                 var cell = new Vector3(GetCell(p.x), 0, GetCell(p.z));
-
-                var position = cell * TileRadius;
-
-                SaveTile(position);
-                DeleteOldInstance(position);
-                DrawTile(position);
+                var location = new Location(cell);
+                
+                SaveTile(location);
+                DeleteOldInstance(location);
+                DrawTile(location);
             }
         }
+    }
+
+    private class Location
+    {
+        public Location(Vector3 logicalPosition)
+        {
+            Logical = logicalPosition;
+        }
+
+        public Vector3 Logical { get; private set; }
+        public Vector3 Visual => Logical * TileRadius;
     }
 
     private void HandleSave()
@@ -56,13 +66,13 @@ public class MapBuilder : MonoBehaviour {
         if (Input.GetKeyUp(KeyCode.S))
         {
             var track = new Track {
-                StartPosition = new StartPosition { X = 1, Y =1 },
+                StartPosition = new StartPosition { X = 1, Y = 1 },
                 Tiles = ConvertToTiles()
             };
             var json = JsonConvert.SerializeObject(track);
             Debug.Log(track);
             Debug.Log(json);
-            StartCoroutine(PostRequest("http://localhost:50248/races/track", json));
+            StartCoroutine(PostRequest("http://localhost:50248/races/", json));
         }
     }
 
@@ -70,13 +80,20 @@ public class MapBuilder : MonoBehaviour {
     {
         var locations = tileTypes.Keys;
         Debug.Log(locations.Count);
+        foreach(var l in locations)
+        {
+            Debug.Log(l.x + "." + l.y + "." + l.z);
+        }
         var xRange = new Range(locations.Select(point => point.x));
         var zRange = new Range(locations.Select(point => point.z));
 
+
+        Debug.Log(xRange.Length + ", " + zRange.Length);
+
         var tiles = new TileType[xRange.Length][];
-        for(var x = xRange.Min; x <= xRange.Max; x++)
+        for(var x = 0; x < xRange.Length; x++)
         {
-            tiles[x - xRange.Min] = new TileType[zRange.Length];
+            tiles[x] = new TileType[zRange.Length];
         }
 
         foreach(var location in locations)
@@ -116,24 +133,24 @@ public class MapBuilder : MonoBehaviour {
         Debug.Log("Response: " + request.downloadHandler.text);
     }
 
-    private void DeleteOldInstance(Vector3 position)
+    private void DeleteOldInstance(Location location)
     {
-        if (tileInstances.ContainsKey(position))
+        if (tileInstances.ContainsKey(location.Logical))
         {
-            Destroy(tileInstances[position]);
-            tileInstances[position] = null;
+            Destroy(tileInstances[location.Logical]);
+            tileInstances[location.Logical] = null;
         }
     }
 
-    private void SaveTile(Vector3 position)
+    private void SaveTile(Location location)
     {
-        tileTypes[position] = tileSelected;
+        tileTypes[location.Logical] = tileSelected;
     }
 
-    private void DrawTile(Vector3 position)
+    private void DrawTile(Location location)
     {
         var roadDefinition = roadTileInitializer.GetRoadDefinitions(tileSelected);
-        Instantiate(roadDefinition, position);
+        Instantiate(roadDefinition, location.Visual);
     }
 
     private int GetCell(float freePosition)
