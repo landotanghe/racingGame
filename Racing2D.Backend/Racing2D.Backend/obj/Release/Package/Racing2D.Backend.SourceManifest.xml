@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<sitemanifest>
-  <IisApp path="F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\obj\Release\Package\PackageTmp" />
-  <setAcl path="F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\obj\Release\Package\PackageTmp" setAclResourceType="Directory" />
-  <setAcl path="F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\obj\Release\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
-</sitemanifest>
