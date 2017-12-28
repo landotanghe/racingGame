@@ -8,22 +8,28 @@ using UnityEngine.Networking;
 
 public class MapBuilder : MonoBehaviour {
 
-    public const string url = "http://formeleins-lt.azurewebsites.net/races"; //"http://localhost:50248/races/"
-    public const int TileRadius = 10;
+    public const string racesUrl = "http://localhost:50248/races/";
+    // public const string racesUrl ="http://formeleins-lt.azurewebsites.net/races/";
     public RoadTileInitializer roadTileInitializer;
+    public TilesManager tilesManager;
+
+    private static readonly KeyCode[] ctrlKeys = new[] { KeyCode.LeftControl, KeyCode.RightControl };
+    private const KeyCode LoadShortKey = KeyCode.K;
+    private const KeyCode SaveShortKey = KeyCode.W;
+
 
     private int groundMask;
     private TileType tileSelected;
-    private Dictionary<Vector3, TileType> tileTypes;
-    private Dictionary<Vector3, GameObject> tileInstances;
+
+
+
 
     // Use this for initialization
     void Start ()
     {
-        tileTypes = new Dictionary<Vector3, TileType>();
-        tileInstances = new Dictionary<Vector3, GameObject>();
-    }
 
+    }
+    
     private void Awake()
     {
         groundMask = LayerMask.GetMask("Underground");
@@ -32,7 +38,8 @@ public class MapBuilder : MonoBehaviour {
     public void FixedUpdate()
     {
         SelectTile();
-        HandleSave();
+        CheckForSaving();
+        CheckForLoading();
 
         if (Input.GetMouseButton(0))
         {
@@ -42,52 +49,93 @@ public class MapBuilder : MonoBehaviour {
             if (Physics.Raycast(ray, out rayTarget, float.MaxValue, groundMask))
             {
                 var p = rayTarget.point;
-                var cell = new Vector3(GetCell(p.x), 0, GetCell(p.z));
-                var location = new Location(cell);
-                
-                SaveTile(location);
-                DeleteOldInstance(location);
-                DrawTile(location);
+                tilesManager.AddTile(GetCellCoordinate(p.x), GetCellCoordinate(p.z), tileSelected);
             }
         }
     }
 
-    private class Location
-    {
-        public Location(Vector3 logicalPosition)
-        {
-            Logical = logicalPosition;
-        }
 
-        public Vector3 Logical { get; private set; }
-        public Vector3 Visual => Logical * TileRadius;
-    }
-
-    private void HandleSave()
+    private void CheckForSaving()
     {
-        if (Input.GetKeyUp(KeyCode.S))
+        if (SaveShortcutWasPressed())
         {
-            var track = new Track {
+            var track = new Track
+            {
                 StartPosition = new StartPosition { X = 1, Y = 1 },
                 Tiles = ConvertToTiles()
             };
+
             var json = JsonConvert.SerializeObject(track);
             Debug.Log(track);
             Debug.Log(json);
-            StartCoroutine(PostRequest(url, json));
+            StartCoroutine(SaveTrack(racesUrl, json));
         }
+    }
+
+    private void CheckForLoading()
+    {
+        if (LoadShortcutWasPressed())
+        {
+            var www = new WWW(racesUrl + "/" + "5a4514f12218f732a851c0be");
+            StartCoroutine(LoadTrackFrom(www));
+        }
+    }
+
+    private IEnumerator LoadTrackFrom(WWW www)
+    {
+        yield return www;
+        Debug.Log("loading track from + " + www.url);
+
+        if (www.error == null)
+        {
+            var track = JsonConvert.DeserializeObject<Track>(www.text);
+            tilesManager.ResetTiles();
+            LoadTilesFrom(track);
+        }
+        else
+        {
+            Debug.LogError("network error: " + www.error);
+        }
+    }
+
+    private void LoadTilesFrom(Track track)
+    {
+        for (int x = 0; x < track.Tiles.Length; x++)
+        {
+            for (int y = 0; x < track.Tiles[x].Length; y++)
+            {
+                tilesManager.AddTile(x, y, track.Tiles[x][y]);
+            }
+        }
+    }
+
+
+    private bool LoadShortcutWasPressed()
+    {
+        return BothGroupsPressedAtSameTime(LoadShortKey, ctrlKeys);
+    }
+
+    private static bool SaveShortcutWasPressed()
+    {
+        return BothGroupsPressedAtSameTime(SaveShortKey, ctrlKeys);
+    }
+
+    private static bool BothGroupsPressedAtSameTime(KeyCode group1, KeyCode[] group2)
+    {
+        return Input.GetKeyDown(group1) && group2.Any(k => Input.GetKey(k))
+            || Input.GetKey(group1) && group2.Any(k => Input.GetKeyDown(k));
     }
 
     private TileType[][] ConvertToTiles()
     {
-        var locations = tileTypes.Keys;
-        Debug.Log(locations.Count);
-        foreach(var l in locations)
+        var tileLocations = tilesManager.GetTiles();
+        Debug.Log(tileLocations.Count());
+        foreach(var l in tileLocations)
         {
-            Debug.Log(l.x + "." + l.y + "." + l.z);
+            Debug.Log(l.Key.x + "." + l.Key.y + "." + l.Key.z);
         }
-        var xRange = new Range(locations.Select(point => point.x));
-        var zRange = new Range(locations.Select(point => point.z));
+        var xRange = new Range(tileLocations.Select(point => point.Key.x));
+        var zRange = new Range(tileLocations.Select(point => point.Key.z));
 
 
         Debug.Log(xRange.Length + ", " + zRange.Length);
@@ -98,12 +146,12 @@ public class MapBuilder : MonoBehaviour {
             tiles[x] = new TileType[zRange.Length];
         }
 
-        foreach(var location in locations)
+        foreach(var tile in tileLocations)
         {
-            Debug.Log(location);
-            var row = tiles[(int)location.x - xRange.Min];
+            Debug.Log(tile);
+            var row = tiles[(int)tile.Key.x - xRange.Min];
             Debug.Log(row);
-            row[(int)location.z - zRange.Min] = tileTypes[location];
+            row[(int)tile.Key.z - zRange.Min] = tile.Value;
         }
         return tiles;
     }
@@ -122,7 +170,7 @@ public class MapBuilder : MonoBehaviour {
         }
     }
 
-    private IEnumerator PostRequest(string url, string bodyJsonString)
+    private IEnumerator SaveTrack(string url, string bodyJsonString)
     {
         var request = new UnityWebRequest(url, "POST");
         byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(bodyJsonString);
@@ -135,29 +183,11 @@ public class MapBuilder : MonoBehaviour {
         Debug.Log("Response: " + request.downloadHandler.text);
     }
 
-    private void DeleteOldInstance(Location location)
-    {
-        if (tileInstances.ContainsKey(location.Logical))
-        {
-            Destroy(tileInstances[location.Logical]);
-            tileInstances[location.Logical] = null;
-        }
-    }
 
-    private void SaveTile(Location location)
-    {
-        tileTypes[location.Logical] = tileSelected;
-    }
 
-    private void DrawTile(Location location)
+    private int GetCellCoordinate(float freePosition)
     {
-        var roadDefinition = roadTileInitializer.GetRoadDefinitions(tileSelected);
-        Instantiate(roadDefinition, location.Visual);
-    }
-
-    private int GetCell(float freePosition)
-    {
-        var clipped = (int)(freePosition / TileRadius);
+        var clipped = (int)(freePosition / TilesManager.TileRadius);
         return clipped;
     }
 
@@ -189,19 +219,4 @@ public class MapBuilder : MonoBehaviour {
 
         return null;
     }
-
-
-    private void Instantiate(RoadDefinition roadDefinition, Vector3 position)
-    {
-        var transformedPosition = position + new Vector3(TileRadius / 2, 0.01f, TileRadius / 2);
-        tileInstances[position] = Instantiate(roadDefinition.Prefab, transformedPosition, Quaternion.AngleAxis(roadDefinition.OrientationInDegrees, Vector3.up));
-    }
-    
-
-    //GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-    //cube.AddComponent<Rigidbody>();
-    //var renderer = cube.GetComponent<Renderer>();
-    //if ((x + z) % 2 == 0)
-    //    renderer.material.SetColor("_Color", Color.red);
-    //cube.transform.position = new Vector3(x, 1, z);
 }

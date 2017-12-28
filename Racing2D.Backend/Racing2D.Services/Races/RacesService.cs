@@ -24,7 +24,8 @@ namespace Racing2D.Services
             return allTracks.Select(t => new RaceInfo {
                 Id = t.Id,
                 Creator = "lando",
-                Name = "test"
+                Name = "test",
+                CreatedOn = t.CreatedOn
             }).ToList();
         }
 
