@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class MapBuilder : MonoBehaviour {
+
+    public const string url = "http://formeleins-lt.azurewebsites.net/races"; //"http://localhost:50248/races/"
     public const int TileRadius = 10;
     public RoadTileInitializer roadTileInitializer;
 
@@ -72,7 +74,7 @@ public class MapBuilder : MonoBehaviour {
             var json = JsonConvert.SerializeObject(track);
             Debug.Log(track);
             Debug.Log(json);
-            StartCoroutine(PostRequest("http://localhost:50248/races/", json));
+            StartCoroutine(PostRequest(url, json));
         }
     }
 
