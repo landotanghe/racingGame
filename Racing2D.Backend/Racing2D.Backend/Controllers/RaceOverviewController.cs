@@ -12,6 +12,13 @@ namespace Racing2D.Backend.Controllers
         private RacesService _racesService = new RacesService();
 
         [HttpGet()]
+        [Route("available")]
+        public bool Available()
+        {
+            return true;
+        }
+
+        [HttpGet()]
         [Route("")]
         public List<RaceInfo> GetRaces()
         {
