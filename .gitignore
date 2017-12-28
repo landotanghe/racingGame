@@ -3,5 +3,5 @@
 **/target
 **/obj/Debug
 **/.vs
-/Racing2D.Backend/Racing2D.Backend/Properties/PublishProfiles/FormelEins-lt - Web Deploy.pubxml.user
-/Racing.App/Temp/UnityLockfile
+**/Temp/UnityLockfile
+**/Properties/PublishProfiles/
