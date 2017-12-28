@@ -118,31 +118,31 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 201133894}
     m_Modifications:
     - target: {fileID: 4780002640485246, guid: d2ce09cbdcc278a4f926703bef7d0f27, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 25
+      value: -33.344173
       objectReference: {fileID: 0}
     - target: {fileID: 4780002640485246, guid: d2ce09cbdcc278a4f926703bef7d0f27, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -47.806652
       objectReference: {fileID: 0}
     - target: {fileID: 4780002640485246, guid: d2ce09cbdcc278a4f926703bef7d0f27, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 25
+      value: -62.973564
       objectReference: {fileID: 0}
     - target: {fileID: 4780002640485246, guid: d2ce09cbdcc278a4f926703bef7d0f27, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4780002640485246, guid: d2ce09cbdcc278a4f926703bef7d0f27, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4780002640485246, guid: d2ce09cbdcc278a4f926703bef7d0f27, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4780002640485246, guid: d2ce09cbdcc278a4f926703bef7d0f27, type: 2}
       propertyPath: m_LocalRotation.w
@@ -150,11 +150,53 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4780002640485246, guid: d2ce09cbdcc278a4f926703bef7d0f27, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d2ce09cbdcc278a4f926703bef7d0f27, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &201133892
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 201133894}
+  - component: {fileID: 201133893}
+  m_Layer: 0
+  m_Name: tileManagement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &201133893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 201133892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db5c01e02cd4c54791c0a49f91e58c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roadTileInitializer: {fileID: 1895864880}
+--- !u!4 &201133894
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 201133892}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 58.344173, y: 47.806652, z: 87.973564}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1390282042}
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519302644
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,7 +331,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &765582451
 GameObject:
@@ -378,7 +420,7 @@ RectTransform:
   m_Children:
   - {fileID: 895071240}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -415,6 +457,11 @@ Transform:
   m_Father: {fileID: 765582455}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1390282042 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4780002640485246, guid: d2ce09cbdcc278a4f926703bef7d0f27,
+    type: 2}
+  m_PrefabInternal: {fileID: 7992133}
 --- !u!1 &1393925821
 GameObject:
   m_ObjectHideFlags: 0
@@ -782,6 +829,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roadTileInitializer: {fileID: 1895864880}
+  tilesManager: {fileID: 201133893}
 --- !u!4 &2056654755
 Transform:
   m_ObjectHideFlags: 0
@@ -793,7 +841,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2141882134 stripped
 Transform:
