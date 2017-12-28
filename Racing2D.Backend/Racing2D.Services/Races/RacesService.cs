@@ -19,8 +19,7 @@ namespace Racing2D.Services
             var tracks = Tracks();
 
             var allTracks = tracks.Find(x => x.Id != "0").ToList();
-
-
+            
             return allTracks.Select(t => new RaceInfo {
                 Id = t.Id,
                 Creator = "lando",
