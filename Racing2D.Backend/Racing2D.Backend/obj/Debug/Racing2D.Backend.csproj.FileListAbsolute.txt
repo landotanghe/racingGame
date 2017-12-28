@@ -95,3 +95,5 @@ F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\bin\System.Reacti
 F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\bin\System.Reactive.Interfaces.xml
 F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\bin\System.Reactive.Linq.xml
 F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\bin\System.Runtime.InteropServices.RuntimeInformation.dll
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\bin\Microsoft.Azure.Documents.ServiceInterop.dll
+F:\documents\Racing2DDesktop\Racing2D.Backend\Racing2D.Backend\bin\DocumentDB.Spatial.Sql.dll

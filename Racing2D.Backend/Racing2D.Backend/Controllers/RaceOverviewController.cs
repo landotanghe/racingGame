@@ -1,6 +1,7 @@
 ﻿using Racing2D.Services;
 using Racing2D.Services.Races;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace Racing2D.Backend.Controllers
@@ -26,9 +27,9 @@ namespace Racing2D.Backend.Controllers
 
         [HttpPost()]
         [Route("")]
-        public void SaveRaceTrack(Track track)
+        public async Task SaveRaceTrack(Track track)
         {
-            _racesService.SaveRaceTrack(track);
+            await _racesService.SaveRaceTrack(track);
         }
     }
 }
